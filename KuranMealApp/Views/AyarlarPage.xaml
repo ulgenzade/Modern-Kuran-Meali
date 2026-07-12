@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:KuranMealApp.ViewModels"
+             x:Class="KuranMealApp.Views.AyarlarPage"
+             x:DataType="vm:AyarlarViewModel"
+             Title="Ayarlar"
+             BackgroundColor="{AppThemeBinding Light={StaticResource MD3Surface}, Dark={StaticResource MD3SurfaceDark}}">
+
+    <Grid RowDefinitions="Auto, *">
+        <!-- Header -->
+        <Border Grid.Row="0" StrokeThickness="0" Background="{AppThemeBinding Light={StaticResource MD3PrimaryContainer}, Dark={StaticResource MD3SurfaceDark}}" Padding="16,20,16,20">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="0,0,24,24" />
+            </Border.StrokeShape>
+            
+            <VerticalStackLayout Spacing="6">
+                <Label Text="Uygulama Ayarları"
+                       Style="{StaticResource HeadlineMedium}"
+                       TextColor="{AppThemeBinding Light={StaticResource MD3OnPrimaryContainer}, Dark={StaticResource MD3OnSurfaceDark}}"
+                       FontAttributes="Bold" />
+                <Label Text="Okuma deneyiminizi kişiselleştirin."
+                       Style="{StaticResource BodyMedium}"
+                       TextColor="{AppThemeBinding Light={StaticResource MD3OnPrimaryContainer}, Dark={StaticResource MD3OnSurfaceDark}}" />
+            </VerticalStackLayout>
+        </Border>
+
+        <!-- Ayarlar Listesi -->
+        <ScrollView Grid.Row="1" Margin="16,12,16,16">
+            <VerticalStackLayout Spacing="20">
+                
+                <!-- Görünüm ve Okuma Ayarları Kartı -->
+                <Label Text="Görünüm ve Okuma Ayarları" FontAttributes="Bold" FontSize="{DynamicResource AppFontSizeBody}" TextColor="{StaticResource MD3Primary}" Margin="4,0,0,2" />
+                <Border StrokeThickness="0" Background="{AppThemeBinding Light={StaticResource MD3SurfaceContainerLow}, Dark={StaticResource MD3CardDark}}" Padding="16">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="20"/></Border.StrokeShape>
+                    <VerticalStackLayout Spacing="16">
+                        <!-- Karanlık Mod -->
+                        <Grid ColumnDefinitions="*, Auto">
+                            <VerticalStackLayout Grid.Column="0" Spacing="2" VerticalOptions="Center">
+                                <Label Text="Karanlık Mod" Style="{StaticResource TitleMedium}" FontAttributes="Bold" TextColor="{AppThemeBinding Light={StaticResource MD3TextPrimary}, Dark={StaticResource MD3TextPrimaryDark}}" />
+                                <Label Text="Göz yormayan koyu renk temasını etkinleştirin." TextColor="{StaticResource MD3TextSecondary}" FontSize="12" />
+                            </VerticalStackLayout>
+                            <Switch Grid.Column="1" IsToggled="{Binding IsDarkMode}" OnColor="{StaticResource MD3Primary}" VerticalOptions="Center" />
+                        </Grid>
+                        
+                        <BoxView HeightRequest="1" Color="{StaticResource MD3Outline}" Opacity="0.2" />
+
+                        <!-- Disleksi Fontu -->
+                        <Grid ColumnDefinitions="*, Auto">
+                            <VerticalStackLayout Grid.Column="0" Spacing="2" VerticalOptions="Center">
+                                <Label Text="Disleksi Desteği" Style="{StaticResource TitleMedium}" FontAttributes="Bold" TextColor="{AppThemeBinding Light={StaticResource MD3TextPrimary}, Dark={StaticResource MD3TextPrimaryDark}}" />
+                                <Label Text="Okumayı kolaylaştıran özel OpenDyslexic yazı tipini kullanın." TextColor="{StaticResource MD3TextSecondary}" FontSize="12" />
+                            </VerticalStackLayout>
+                            <Switch Grid.Column="1" IsToggled="{Binding UseDyslexicFont}" OnColor="{StaticResource MD3Primary}" VerticalOptions="Center" />
+                        </Grid>
+
+
+
+                        <BoxView HeightRequest="1" Color="{StaticResource MD3Outline}" Opacity="0.2" />
+
+                        <!-- Yazı Boyutu -->
+                        <Grid ColumnDefinitions="*, Auto">
+                            <VerticalStackLayout Grid.Column="0" Spacing="2" VerticalOptions="Center">
+                                <Label Text="Yazı Tipi Boyutu" Style="{StaticResource TitleMedium}" FontAttributes="Bold" TextColor="{AppThemeBinding Light={StaticResource MD3TextPrimary}, Dark={StaticResource MD3TextPrimaryDark}}" />
+                                <Label Text="Meallerin ekran boyutunu büyütün veya küçültün." TextColor="{StaticResource MD3TextSecondary}" FontSize="12" />
+                            </VerticalStackLayout>
+                            <HorizontalStackLayout Grid.Column="1" Spacing="8" VerticalOptions="Center">
+                                <Border HeightRequest="36" WidthRequest="36" StrokeThickness="0" Background="{AppThemeBinding Light={StaticResource MD3SurfaceVariant}, Dark={StaticResource MD3SurfaceVariantDark}}" VerticalOptions="Center">
+                                    <Border.StrokeShape><RoundRectangle CornerRadius="18"/></Border.StrokeShape>
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding DecreaseFontSizeCommand}" Tapped="OnFontScaleTapped" />
+                                    </Border.GestureRecognizers>
+                                    <Label Text="A-" FontAttributes="Bold" TextColor="{AppThemeBinding Light={StaticResource MD3TextPrimary}, Dark={StaticResource MD3TextPrimaryDark}}" HorizontalOptions="Center" VerticalOptions="Center" />
+                                </Border>
+                                <Label Text="{Binding FontSizeDisplay}" VerticalOptions="Center" FontAttributes="Bold" FontSize="14" TextColor="{AppThemeBinding Light=Black, Dark=White}" WidthRequest="44" HorizontalTextAlignment="Center" />
+                                <Border HeightRequest="36" WidthRequest="36" StrokeThickness="0" Background="{AppThemeBinding Light={StaticResource MD3SurfaceVariant}, Dark={StaticResource MD3SurfaceVariantDark}}" VerticalOptions="Center">
+                                    <Border.StrokeShape><RoundRectangle CornerRadius="18"/></Border.StrokeShape>
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding IncreaseFontSizeCommand}" Tapped="OnFontScaleTapped" />
+                                    </Border.GestureRecognizers>
+                                    <Label Text="A+" FontAttributes="Bold" TextColor="{AppThemeBinding Light={StaticResource MD3TextPrimary}, Dark={StaticResource MD3TextPrimaryDark}}" HorizontalOptions="Center" VerticalOptions="Center" />
+                                </Border>
+                            </HorizontalStackLayout>
+                        </Grid>
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Okuma Yazı Tipi Seçimi -->
+                <Label Text="Okuma Yazı Tipi" FontAttributes="Bold" FontSize="{DynamicResource AppFontSizeBody}" TextColor="{StaticResource MD3Primary}" Margin="4,0,0,2" />
+                <Border StrokeThickness="0" Background="{AppThemeBinding Light={StaticResource MD3SurfaceContainerLow}, Dark={StaticResource MD3CardDark}}" Padding="16">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="20"/></Border.StrokeShape>
+                    <VerticalStackLayout Spacing="12">
+                        <Label Text="Ayet meali okuma yazı tipini seçin (Önizleme):" TextColor="{StaticResource MD3TextSecondary}" FontSize="12" />
+                        <Grid ColumnDefinitions="*,*,*" ColumnSpacing="8" HeightRequest="44">
+                            <!-- Open Sans -->
+                            <Border Grid.Column="0" StrokeThickness="0">
+                                <Border.StrokeShape><RoundRectangle CornerRadius="12"/></Border.StrokeShape>
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding ToggleOptionCommand}" CommandParameter="OpenSans" Tapped="OnFontCardTapped" />
+                                </Border.GestureRecognizers>
+                                <Border.Style>
+                                    <Style TargetType="Border">
+                                        <Setter Property="Background" Value="{AppThemeBinding Light={StaticResource MD3SurfaceVariant}, Dark={StaticResource MD3SurfaceVariantDark}}" />
+                                        <Style.Triggers>
+                                            <DataTrigger TargetType="Border" Binding="{Binding IsFontOpenSans}" Value="True">
+                                                <Setter Property="Background" Value="{AppThemeBinding Light={StaticResource MD3Primary}, Dark={StaticResource MD3PrimaryDark}}" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Border.Style>
+                                <Label Text="Open Sans" FontFamily="OpenSansRegular" HorizontalOptions="Center" VerticalOptions="Center" FontAttributes="Bold">
+                                    <Label.Style>
+                                        <Style TargetType="Label">
+                                            <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource MD3TextPrimary}, Dark={StaticResource MD3TextPrimaryDark}}" />
+                                            <Style.Triggers>
+                                                <DataTrigger TargetType="Label" Binding="{Binding IsFontOpenSans}" Value="True">
+                                                    <Setter Property="TextColor" Value="White" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Label.Style>
+                                </Label>
+                            </Border>
+
+                            <!-- Inter -->
+                            <Border Grid.Column="1" StrokeThickness="0">
+                                <Border.StrokeShape><RoundRectangle CornerRadius="12"/></Border.StrokeShape>
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding ToggleOptionCommand}" CommandParameter="Inter" Tapped="OnFontCardTapped" />
+                                </Border.GestureRecognizers>
+                                <Border.Style>
+                                    <Style TargetType="Border">
+                                        <Setter Property="Background" Value="{AppThemeBinding Light={StaticResource MD3SurfaceVariant}, Dark={StaticResource MD3SurfaceVariantDark}}" />
+                                        <Style.Triggers>
+                                            <DataTrigger TargetType="Border" Binding="{Binding IsFontInter}" Value="True">
+                                                <Setter Property="Background" Value="{AppThemeBinding Light={StaticResource MD3Primary}, Dark={StaticResource MD3PrimaryDark}}" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Border.Style>
+                                <Label Text="Inter" FontFamily="InterRegular" HorizontalOptions="Center" VerticalOptions="Center" FontAttributes="Bold">
+                                    <Label.Style>
+                                        <Style TargetType="Label">
+                                            <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource MD3TextPrimary}, Dark={StaticResource MD3TextPrimaryDark}}" />
+                                            <Style.Triggers>
+                                                <DataTrigger TargetType="Label" Binding="{Binding IsFontInter}" Value="True">
+                                                    <Setter Property="TextColor" Value="White" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Label.Style>
+                                </Label>
+                            </Border>
+
+                            <!-- Lora -->
+                            <Border Grid.Column="2" StrokeThickness="0">
+                                <Border.StrokeShape><RoundRectangle CornerRadius="12"/></Border.StrokeShape>
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding ToggleOptionCommand}" CommandParameter="Lora" Tapped="OnFontCardTapped" />
+                                </Border.GestureRecognizers>
+                                <Border.Style>
+                                    <Style TargetType="Border">
+                                        <Setter Property="Background" Value="{AppThemeBinding Light={StaticResource MD3SurfaceVariant}, Dark={StaticResource MD3SurfaceVariantDark}}" />
+                                        <Style.Triggers>
+                                            <DataTrigger TargetType="Border" Binding="{Binding IsFontLora}" Value="True">
+                                                <Setter Property="Background" Value="{AppThemeBinding Light={StaticResource MD3Primary}, Dark={StaticResource MD3PrimaryDark}}" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Border.Style>
+                                <Label Text="Lora" FontFamily="LoraRegular" HorizontalOptions="Center" VerticalOptions="Center" FontAttributes="Bold">
+                                    <Label.Style>
+                                        <Style TargetType="Label">
+                                            <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource MD3TextPrimary}, Dark={StaticResource MD3TextPrimaryDark}}" />
+                                            <Style.Triggers>
+                                                <DataTrigger TargetType="Label" Binding="{Binding IsFontLora}" Value="True">
+                                                    <Setter Property="TextColor" Value="White" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Label.Style>
+                                </Label>
+                            </Border>
+                        </Grid>
+                    </VerticalStackLayout>
+                </Border>
+
+				<!-- Hakkında Kartı -->
+				<Label Text="Uygulama Hakkında" FontAttributes="Bold" FontSize="15" TextColor="{StaticResource MD3Primary}" Margin="4,0,0,2" />
+				<Border StrokeThickness="0" Background="{AppThemeBinding Light={StaticResource MD3SurfaceContainerLow}, Dark={StaticResource MD3CardDark}}" Padding="16">
+					<Border.StrokeShape><RoundRectangle CornerRadius="20"/></Border.StrokeShape>
+					<Grid ColumnDefinitions="*, Auto">
+						<Label Text="Uygulama Sürümü" Style="{StaticResource TitleMedium}" FontAttributes="Bold" TextColor="{AppThemeBinding Light={StaticResource MD3TextPrimary}, Dark={StaticResource MD3TextPrimaryDark}}" />
+						<Label Grid.Column="1" Text="v1.2.0" FontAttributes="Bold" TextColor="{StaticResource MD3TextSecondary}" FontSize="14" />
+					</Grid>
+				</Border>
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

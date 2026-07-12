@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="KuranMealApp.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:views="clr-namespace:KuranMealApp.Views"
+    Title="Modern Kuran Meali"
+    FlyoutBehavior="Disabled"
+    Shell.TabBarBackgroundColor="{AppThemeBinding Light={StaticResource MD3Surface}, Dark={StaticResource MD3SurfaceDark}}"
+    Shell.TabBarTitleColor="{AppThemeBinding Light={StaticResource MD3Primary}, Dark={StaticResource MD3PrimaryDark}}"
+    Shell.TabBarUnselectedColor="{AppThemeBinding Light={StaticResource MD3TextMuted}, Dark={StaticResource MD3TextSecondaryDark}}">
+
+    <TabBar>
+        <Tab Title="Sureler">
+            <Tab.Icon>
+                <FontImageSource Glyph="&#xe865;" FontFamily="MaterialIcons" />
+            </Tab.Icon>
+            <ShellContent ContentTemplate="{DataTemplate views:MainPage}" Route="MainPage" />
+        </Tab>
+        <Tab Title="Arama">
+            <Tab.Icon>
+                <FontImageSource Glyph="&#xe8b6;" FontFamily="MaterialIcons" />
+            </Tab.Icon>
+            <ShellContent ContentTemplate="{DataTemplate views:AramaPage}" Route="AramaPage" />
+        </Tab>
+        <Tab Title="Fihrist">
+            <Tab.Icon>
+                <FontImageSource Glyph="&#xe85d;" FontFamily="MaterialIcons" />
+            </Tab.Icon>
+            <ShellContent ContentTemplate="{DataTemplate views:FihristPage}" Route="FihristPage" />
+        </Tab>
+        <Tab Title="Ayarlar">
+            <Tab.Icon>
+                <FontImageSource Glyph="&#xe8b8;" FontFamily="MaterialIcons" />
+            </Tab.Icon>
+            <ShellContent ContentTemplate="{DataTemplate views:AyarlarPage}" Route="AyarlarPage" />
+        </Tab>
+    </TabBar>
+
+</Shell>

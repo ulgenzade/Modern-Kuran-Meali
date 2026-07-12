@@ -1,0 +1,210 @@
+<?xml version = "1.0" encoding = "UTF-8" ?>
+<Application xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:KuranMealApp"
+             x:Class="KuranMealApp.App">
+    <Application.Resources>
+        <ResourceDictionary>
+
+            <!-- ══════════════════════════════════════════════════ -->
+            <!-- Dinamik Font Kaynakları                            -->
+            <!-- ══════════════════════════════════════════════════ -->
+            <x:String x:Key="AppFontFamily">OpenSans</x:String>
+            <x:Double x:Key="AppFontSizeBody">15</x:Double>
+            <x:Double x:Key="AppFontSizeTitle">16</x:Double>
+            <x:Double x:Key="AppFontSizeHeadline">18</x:Double>
+            <x:Double x:Key="AppFontSizeHeadlineLarge">22</x:Double>
+
+            <!-- ══════════════════════════════════════════════════ -->
+            <!-- Material Design 3 — Kuran Meali Renk Sistemi       -->
+            <!-- ══════════════════════════════════════════════════ -->
+
+            <!-- Primary (Koyu Lacivert / Arduvaz - Text ve Header) -->
+            <Color x:Key="MD3Primary">#2A3C4D</Color>
+            <Color x:Key="MD3PrimaryDark">#89B3E2</Color>
+            <Color x:Key="MD3OnPrimary">#FFFFFF</Color>
+            <Color x:Key="MD3OnPrimaryDark">#181816</Color>
+            <Color x:Key="MD3PrimaryContainer">#C5D9E8</Color>
+            <Color x:Key="MD3OnPrimaryContainer">#1E2A38</Color>
+
+            <!-- Secondary (Ara tonlar - Menü ve Pill'ler) -->
+            <Color x:Key="MD3Secondary">#5C748C</Color>
+            <Color x:Key="MD3OnSecondary">#FFFFFF</Color>
+            <Color x:Key="MD3SecondaryContainer">#E5E0D0</Color>
+            <Color x:Key="MD3OnSecondaryContainer">#1E2A38</Color>
+
+            <!-- Tertiary (Vurgular) -->
+            <Color x:Key="MD3Tertiary">#B29A78</Color>
+            <Color x:Key="MD3OnTertiary">#FFFFFF</Color>
+            <Color x:Key="MD3TertiaryContainer">#F2E9D8</Color>
+            <Color x:Key="MD3OnTertiaryContainer">#1E2A38</Color>
+
+            <!-- Surface / Background (Krem Tonu) -->
+            <Color x:Key="MD3Surface">#F9F6EE</Color>
+            <Color x:Key="MD3SurfaceDark">#181816</Color>
+            <Color x:Key="MD3SurfaceVariant">#C5D9E8</Color>
+            <Color x:Key="MD3SurfaceVariantDark">#242421</Color>
+            <Color x:Key="MD3SurfaceContainerLow">#F3EFE4</Color>
+            <Color x:Key="MD3OnSurface">#1E2A38</Color>
+            <Color x:Key="MD3OnSurfaceDark">#E6E1D5</Color>
+            <Color x:Key="MD3OnSurfaceVariant">#4B5563</Color>
+            <Color x:Key="MD3OnSurfaceVariantDark">#A6A196</Color>
+
+            <!-- Card (Ayet Kartı - Biraz daha koyu krem) -->
+            <Color x:Key="MD3CardLight">#F3EFE4</Color>
+            <Color x:Key="MD3CardDark">#20201D</Color>
+
+            <!-- Outline / Divider -->
+            <Color x:Key="MD3Outline">#DCD5C5</Color>
+            <Color x:Key="MD3OutlineDark">#383833</Color>
+
+            <!-- Text -->
+            <Color x:Key="MD3TextPrimary">#1E2A38</Color>
+            <Color x:Key="MD3TextSecondary">#5C748C</Color>
+            <Color x:Key="MD3TextMuted">#7B8C9C</Color>
+            <Color x:Key="MD3TextPrimaryDark">#E6E1D5</Color>
+            <Color x:Key="MD3TextSecondaryDark">#A6A196</Color>
+
+            <!-- Arabik metin vurgusu -->
+            <Color x:Key="ArabicTextColor">#1C2833</Color>
+            <Color x:Key="ArabicTextColorDark">#F5EFEB</Color>
+
+            <!-- Transcript rengi -->
+            <Color x:Key="TranscriptColor">#6A7D8F</Color>
+
+            <!-- Error -->
+            <Color x:Key="MD3Error">#DC2626</Color>
+
+            <!-- ══════════════════════════════════════════════════ -->
+            <!-- Global Page Style                                  -->
+            <!-- ══════════════════════════════════════════════════ -->
+
+            <Style TargetType="NavigationPage">
+                <Setter Property="BarBackgroundColor" Value="{StaticResource MD3Primary}" />
+                <Setter Property="BarTextColor" Value="White" />
+            </Style>
+
+            <Style TargetType="ContentPage" ApplyToDerivedTypes="True">
+                <Setter Property="BackgroundColor"
+                        Value="{AppThemeBinding Light={StaticResource MD3Surface}, Dark={StaticResource MD3SurfaceDark}}" />
+            </Style>
+
+            <!-- ══════════════════════════════════════════════════ -->
+            <!-- Global Button Styles                               -->
+            <!-- ══════════════════════════════════════════════════ -->
+
+            <!-- Filled Button (Primary) -->
+            <Style x:Key="FilledButton" TargetType="Button">
+                <Setter Property="BackgroundColor" Value="{StaticResource MD3Primary}" />
+                <Setter Property="TextColor" Value="{StaticResource MD3OnPrimary}" />
+                <Setter Property="CornerRadius" Value="20" />
+                <Setter Property="FontSize" Value="14" />
+                <Setter Property="FontAttributes" Value="Bold" />
+                <Setter Property="HeightRequest" Value="48" />
+                <Setter Property="Padding" Value="24,0" />
+            </Style>
+
+            <!-- Tonal Button (Secondary) -->
+            <Style x:Key="TonalButton" TargetType="Button">
+                <Setter Property="BackgroundColor" Value="{StaticResource MD3PrimaryContainer}" />
+                <Setter Property="TextColor" Value="{StaticResource MD3OnPrimaryContainer}" />
+                <Setter Property="CornerRadius" Value="20" />
+                <Setter Property="FontSize" Value="13" />
+                <Setter Property="HeightRequest" Value="40" />
+                <Setter Property="Padding" Value="16,0" />
+            </Style>
+
+            <!-- Icon Button (Toolbar) -->
+            <Style x:Key="IconButton" TargetType="Button">
+                <Setter Property="BackgroundColor" Value="Transparent" />
+                <Setter Property="TextColor" Value="White" />
+                <Setter Property="FontSize" Value="13" />
+                <Setter Property="Padding" Value="10,6" />
+                <Setter Property="CornerRadius" Value="16" />
+            </Style>
+
+            <!-- Text Button -->
+            <Style x:Key="TextButton" TargetType="Button">
+                <Setter Property="BackgroundColor" Value="Transparent" />
+                <Setter Property="TextColor" Value="{StaticResource MD3Primary}" />
+                <Setter Property="FontSize" Value="14" />
+                <Setter Property="Padding" Value="8,4" />
+                <Setter Property="CornerRadius" Value="8" />
+            </Style>
+
+            <!-- Outlined Button -->
+            <Style x:Key="OutlinedButton" TargetType="Button">
+                <Setter Property="BackgroundColor" Value="Transparent" />
+                <Setter Property="TextColor" Value="{StaticResource MD3Primary}" />
+                <Setter Property="BorderColor" Value="{StaticResource MD3Primary}" />
+                <Setter Property="BorderWidth" Value="1.5" />
+                <Setter Property="CornerRadius" Value="20" />
+                <Setter Property="FontSize" Value="13" />
+                <Setter Property="HeightRequest" Value="40" />
+                <Setter Property="Padding" Value="16,0" />
+            </Style>
+
+            <!-- ══════════════════════════════════════════════════ -->
+            <!-- Global Label Styles                                -->
+            <!-- ══════════════════════════════════════════════════ -->
+
+            <Style x:Key="HeadlineLarge" TargetType="Label">
+                <Setter Property="FontFamily" Value="{DynamicResource AppFontFamily}" />
+                <Setter Property="FontSize" Value="{DynamicResource AppFontSizeHeadlineLarge}" />
+                <Setter Property="FontAttributes" Value="Bold" />
+                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource MD3TextPrimary}, Dark={StaticResource MD3TextPrimaryDark}}" />
+            </Style>
+
+            <Style x:Key="HeadlineMedium" TargetType="Label">
+                <Setter Property="FontFamily" Value="{DynamicResource AppFontFamily}" />
+                <Setter Property="FontSize" Value="{DynamicResource AppFontSizeHeadline}" />
+                <Setter Property="FontAttributes" Value="Bold" />
+                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource MD3TextPrimary}, Dark={StaticResource MD3TextPrimaryDark}}" />
+            </Style>
+
+            <Style x:Key="TitleMedium" TargetType="Label">
+                <Setter Property="FontFamily" Value="{DynamicResource AppFontFamily}" />
+                <Setter Property="FontSize" Value="{DynamicResource AppFontSizeTitle}" />
+                <Setter Property="FontAttributes" Value="Bold" />
+                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource MD3TextPrimary}, Dark={StaticResource MD3TextPrimaryDark}}" />
+            </Style>
+
+            <Style x:Key="BodyMedium" TargetType="Label">
+                <Setter Property="FontFamily" Value="{DynamicResource AppFontFamily}" />
+                <Setter Property="FontSize" Value="{DynamicResource AppFontSizeBody}" />
+                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource MD3TextPrimary}, Dark={StaticResource MD3TextPrimaryDark}}" />
+                <Setter Property="LineBreakMode" Value="WordWrap" />
+            </Style>
+
+            <Style x:Key="LabelMuted" TargetType="Label">
+                <Setter Property="FontFamily" Value="{DynamicResource AppFontFamily}" />
+                <Setter Property="FontSize" Value="12" />
+                <Setter Property="TextColor" Value="{StaticResource MD3TextMuted}" />
+            </Style>
+
+            <!-- ══════════════════════════════════════════════════ -->
+            <!-- Card (ElevatedCard benzeri)                        -->
+            <!-- ══════════════════════════════════════════════════ -->
+
+            <Style x:Key="ElevatedCard" TargetType="Border">
+                <Setter Property="StrokeThickness" Value="1" />
+                <Setter Property="Stroke" Value="{AppThemeBinding Light={StaticResource MD3Outline}, Dark={StaticResource MD3OutlineDark}}" />
+                <Setter Property="Background" Value="{AppThemeBinding Light={StaticResource MD3CardLight}, Dark={StaticResource MD3CardDark}}" />
+                <Setter Property="Padding" Value="16" />
+                <Setter Property="StrokeShape">
+                    <Setter.Value>
+                        <RoundRectangle CornerRadius="12" />
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <!-- SearchBar global stili -->
+            <Style TargetType="SearchBar">
+                <Setter Property="BackgroundColor" Value="Transparent" />
+                <Setter Property="CancelButtonColor" Value="{StaticResource MD3Primary}" />
+                <Setter Property="FontSize" Value="14" />
+            </Style>
+
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

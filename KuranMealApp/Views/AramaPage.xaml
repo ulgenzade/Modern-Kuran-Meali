@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:KuranMealApp.ViewModels"
+             xmlns:models="clr-namespace:KuranMealApp.Models"
+             x:Class="KuranMealApp.Views.AramaPage"
+             x:DataType="viewmodels:AramaViewModel"
+             Title="Arama"
+             BackgroundColor="{AppThemeBinding Light={StaticResource MD3Surface}, Dark={StaticResource MD3SurfaceDark}}">
+
+    <Grid RowDefinitions="Auto, *">
+        
+        <!-- Header & Search Bar -->
+        <Border Grid.Row="0" StrokeThickness="0" Background="{AppThemeBinding Light={StaticResource MD3PrimaryContainer}, Dark={StaticResource MD3SurfaceDark}}" Padding="16,20,16,20">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="0,0,24,24" />
+            </Border.StrokeShape>
+            
+            <VerticalStackLayout Spacing="16">
+                <!-- Başlık -->
+                <Label Text="Gelişmiş Arama"
+                       Style="{StaticResource HeadlineMedium}"
+                       TextColor="{AppThemeBinding Light={StaticResource MD3OnPrimaryContainer}, Dark={StaticResource MD3OnSurfaceDark}}"
+                       FontAttributes="Bold" />
+
+                <!-- Arama Kutusu -->
+                <Border StrokeThickness="1" Stroke="{StaticResource MD3Outline}" Background="{AppThemeBinding Light={StaticResource MD3Surface}, Dark={StaticResource MD3SurfaceVariantDark}}" Padding="8,4">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="24"/></Border.StrokeShape>
+                    <Grid ColumnDefinitions="Auto, *, Auto">
+                        <Label Grid.Column="0" Text="🔍" FontSize="18" VerticalOptions="Center" Margin="8,0,0,0" />
+                        <SearchBar Grid.Column="1" Text="{Binding SearchQuery}" Placeholder="Kur'an-ı Kerim'de Ara..." PlaceholderColor="{StaticResource MD3Outline}" TextColor="{AppThemeBinding Light=Black, Dark={StaticResource MD3OnSurfaceDark}}" BackgroundColor="Transparent" />
+                        <Button Grid.Column="2" Text="⚙" Style="{StaticResource IconButton}" WidthRequest="40" HeightRequest="40" />
+                    </Grid>
+                </Border>
+
+                <!-- Çevirmen Seçici (Picker) -->
+                <Border StrokeThickness="1" Stroke="{StaticResource MD3Outline}" Background="{AppThemeBinding Light={StaticResource MD3Surface}, Dark={StaticResource MD3SurfaceVariantDark}}" Padding="12,0">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="16"/></Border.StrokeShape>
+                    <Grid ColumnDefinitions="*, Auto">
+                        <Picker Grid.Column="0"
+                                Title="Çevirmen Seçin"
+                                ItemsSource="{Binding AvailableTranslators}"
+                                SelectedItem="{Binding SelectedTranslator}"
+                                BackgroundColor="Transparent"
+                                HorizontalOptions="Fill" />
+                        <Label Grid.Column="1" Text="▼" VerticalOptions="Center" TextColor="{StaticResource MD3Outline}" Margin="0,0,8,0" IsVisible="False" /> <!-- Picker'ın kendi oku olduğu için gizledim, gerekirse açılabilir -->
+                    </Grid>
+                </Border>
+            </VerticalStackLayout>
+        </Border>
+
+        <!-- Arama Sonuçları -->
+        <CollectionView Grid.Row="1" Margin="16" ItemsSource="{Binding SearchResults}">
+            <CollectionView.EmptyView>
+                <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="12" Margin="0,40,0,0">
+                    <ActivityIndicator IsRunning="{Binding IsSearching}" IsVisible="{Binding IsSearching}" Color="{StaticResource MD3Primary}" />
+                    <Label Text="{Binding SearchMessage}" Style="{StaticResource BodyMedium}" HorizontalOptions="Center" TextColor="{StaticResource MD3TextSecondary}" />
+                </VerticalStackLayout>
+            </CollectionView.EmptyView>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:AramaSonucu">
+                    <Border StrokeThickness="0" Background="{AppThemeBinding Light={StaticResource MD3SurfaceVariant}, Dark={StaticResource MD3SurfaceVariantDark}}" Padding="12" Margin="0,0,0,8">
+                        <Border.StrokeShape><RoundRectangle CornerRadius="12"/></Border.StrokeShape>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding BindingContext.ItemTappedCommand, Source={RelativeSource AncestorType={x:Type ContentPage}}}" CommandParameter="{Binding .}" />
+                        </Border.GestureRecognizers>
+                        <VerticalStackLayout Spacing="8">
+                            <Label Text="{Binding GosterimBasligi}" FontAttributes="Bold" TextColor="{AppThemeBinding Light={StaticResource MD3Primary}, Dark={StaticResource MD3PrimaryDark}}" />
+                            <Label FormattedText="{Binding FormattedArapcaMetin}" FontFamily="ArabicMushaf" FontSize="20" HorizontalTextAlignment="End" TextColor="{AppThemeBinding Light={StaticResource ArabicTextColor}, Dark={StaticResource ArabicTextColorDark}}" />
+                            <Label FormattedText="{Binding FormattedMealMetni}" LineBreakMode="WordWrap" TextColor="{AppThemeBinding Light={StaticResource MD3OnSurfaceVariant}, Dark={StaticResource MD3OnSurfaceVariantDark}}" />
+                            <Label Text="{Binding YazarAdi, StringFormat='— {0}'}" FontSize="12" FontAttributes="Italic" TextColor="{StaticResource MD3TextSecondary}" HorizontalOptions="End" />
+                        </VerticalStackLayout>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
+</ContentPage>

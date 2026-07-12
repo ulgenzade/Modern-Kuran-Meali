@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:KuranMealApp.ViewModels"
+             xmlns:models="clr-namespace:KuranMealApp.Models"
+             x:Class="KuranMealApp.Views.MainPage"
+             x:DataType="vm:MainViewModel"
+             Title="Kuran Meali">
+
+    <!-- Arka plan rengi açık mavi (Kuran Meali mockup arkası mavi tonlu) -->
+    <Grid RowDefinitions="Auto,Auto,*" Margin="0" BackgroundColor="{AppThemeBinding Light={StaticResource MD3PrimaryContainer}, Dark={StaticResource MD3SurfaceDark}}">
+
+        <!-- ═══════════════════════════════════════════════ -->
+        <!-- 1. Header                                       -->
+        <!-- ═══════════════════════════════════════════════ -->
+        <VerticalStackLayout Grid.Row="0" Spacing="24" Padding="20,24,20,16">
+
+            <!-- Klasik Sıra / İniş Sırası Toggle (Pill Design) -->
+            <Border StrokeThickness="0" 
+                    Background="{AppThemeBinding Light=#F9F6EE, Dark={StaticResource MD3SurfaceVariantDark}}"
+                    Padding="4"
+                    HorizontalOptions="Fill">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="24" />
+                </Border.StrokeShape>
+                <Grid ColumnDefinitions="*,*">
+                    <!-- Klasik Sıra Butonu -->
+                    <Border Grid.Column="0" StrokeThickness="0">
+                        <Border.Style>
+                            <Style TargetType="Border">
+                                <Setter Property="Background" Value="Transparent" />
+                                <Style.Triggers>
+                                    <DataTrigger TargetType="Border" Binding="{Binding IsKlasikSira}" Value="True">
+                                        <Setter Property="Background" Value="{AppThemeBinding Light={StaticResource MD3PrimaryContainer}, Dark={StaticResource MD3Primary}}" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+                        <Border.StrokeShape><RoundRectangle CornerRadius="20"/></Border.StrokeShape>
+                        <Border.GestureRecognizers><TapGestureRecognizer Command="{Binding SetSiralamaCommand}" CommandParameter="Klasik" Tapped="OnSiralamaTapped" /></Border.GestureRecognizers>
+                        <Label Text="Klasik Sıra" 
+                               HorizontalOptions="Center" VerticalOptions="Center" Padding="0,12"
+                               FontAttributes="Bold" InputTransparent="False">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding SetSiralamaCommand}" CommandParameter="Klasik" Tapped="OnSiralamaTapped" />
+                            </Label.GestureRecognizers>
+                            <Label.Style>
+                                <Style TargetType="Label">
+                                    <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource MD3TextSecondary}, Dark={StaticResource MD3TextSecondaryDark}}" />
+                                    <Style.Triggers>
+                                        <DataTrigger TargetType="Label" Binding="{Binding IsKlasikSira}" Value="True">
+                                            <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource MD3OnPrimaryContainer}, Dark={StaticResource MD3OnPrimary}}" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Label.Style>
+                        </Label>
+                    </Border>
+                    <!-- İniş Sırası Butonu -->
+                    <Border Grid.Column="1" StrokeThickness="0">
+                        <Border.Style>
+                            <Style TargetType="Border">
+                                <Setter Property="Background" Value="Transparent" />
+                                <Style.Triggers>
+                                    <DataTrigger TargetType="Border" Binding="{Binding IsKlasikSira}" Value="False">
+                                        <Setter Property="Background" Value="{AppThemeBinding Light={StaticResource MD3PrimaryContainer}, Dark={StaticResource MD3Primary}}" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+                        <Border.StrokeShape><RoundRectangle CornerRadius="20"/></Border.StrokeShape>
+                        <Border.GestureRecognizers><TapGestureRecognizer Command="{Binding SetSiralamaCommand}" CommandParameter="Inis" Tapped="OnSiralamaTapped" /></Border.GestureRecognizers>
+                        <Label Text="İniş Sırası" 
+                               HorizontalOptions="Center" VerticalOptions="Center" Padding="0,12"
+                               FontAttributes="Bold" InputTransparent="False">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding SetSiralamaCommand}" CommandParameter="Inis" Tapped="OnSiralamaTapped" />
+                            </Label.GestureRecognizers>
+                            <Label.Style>
+                                <Style TargetType="Label">
+                                    <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource MD3TextSecondary}, Dark={StaticResource MD3TextSecondaryDark}}" />
+                                    <Style.Triggers>
+                                        <DataTrigger TargetType="Label" Binding="{Binding IsKlasikSira}" Value="False">
+                                            <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource MD3OnPrimaryContainer}, Dark={StaticResource MD3OnPrimary}}" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Label.Style>
+                        </Label>
+                    </Border>
+                </Grid>
+            </Border>
+        </VerticalStackLayout>
+
+        <!-- Arama barını şimdilik kaldırdık çünkü Arama tab'a geçti. Mockupta görünmüyor. -->
+
+        <!-- ═══════════════════════════════════════════════ -->
+        <!-- 2. Sure Listesi                                 -->
+        <!-- ═══════════════════════════════════════════════ -->
+        <RefreshView Grid.Row="2"
+                     IsRefreshing="{Binding IsBusy}"
+                     Command="{Binding LoadSurelerCommand}">
+            <Grid>
+                <CollectionView x:Name="SureListView"
+                                ItemsSource="{Binding Sureler}"
+                                SelectionMode="Single"
+                                SelectionChanged="OnSureSelected"
+                                Scrolled="OnCollectionViewScrolled"
+                                VerticalScrollBarVisibility="Never"
+                                ItemSizingStrategy="MeasureAllItems"
+                                Margin="16,0,50,0">
+
+                    <CollectionView.EmptyView>
+                        <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="12" Margin="0,60">
+                            <Label Text="🔍" FontSize="40" HorizontalOptions="Center" />
+                            <Label Text="Sure bulunamadı" Style="{StaticResource HeadlineMedium}" HorizontalOptions="Center" TextColor="{StaticResource MD3TextMuted}" />
+                        </VerticalStackLayout>
+                    </CollectionView.EmptyView>
+
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="models:Sure">
+                            <Border StrokeThickness="0" Background="{AppThemeBinding Light=#F9F6EE, Dark={StaticResource MD3SurfaceVariantDark}}" Padding="16,16" Margin="0,6">
+                                <Border.StrokeShape><RoundRectangle CornerRadius="16" /></Border.StrokeShape>
+                                <Grid ColumnDefinitions="*,*,*" RowDefinitions="Auto,Auto">
+                                    <!-- Sure Adı -->
+                                    <Label Grid.Row="0" Grid.Column="0" Text="{Binding SureAdi, Mode=OneTime}" Style="{StaticResource TitleMedium}" FontAttributes="Bold" TextColor="{AppThemeBinding Light={StaticResource MD3TextPrimary}, Dark={StaticResource MD3TextPrimaryDark}}" VerticalOptions="End" />
+                                    <Label Grid.Row="1" Grid.Column="0" Text="{Binding SureNo, StringFormat='Klasik No: {0}', Mode=OneTime}" FontSize="11" TextColor="{StaticResource MD3TextMuted}" VerticalOptions="Start" />
+
+                                    <!-- İniş Sırası -->
+                                    <Label Grid.Row="0" Grid.Column="1" Text="{Binding InisSirasi, Mode=OneTime}" Style="{StaticResource TitleMedium}" FontAttributes="Bold" HorizontalOptions="Center" TextColor="{AppThemeBinding Light={StaticResource MD3TextPrimary}, Dark={StaticResource MD3TextPrimaryDark}}" VerticalOptions="End" />
+                                    <Label Grid.Row="1" Grid.Column="1" Text="İniş Sırası No" FontSize="11" TextColor="{StaticResource MD3TextMuted}" HorizontalOptions="Center" VerticalOptions="Start" />
+
+                                    <!-- Ayet Sayısı -->
+                                    <Label Grid.Row="0" Grid.Column="2" Text="{Binding AyetSayisi, Mode=OneTime}" Style="{StaticResource TitleMedium}" FontAttributes="Bold" HorizontalOptions="Center" TextColor="{AppThemeBinding Light={StaticResource MD3TextPrimary}, Dark={StaticResource MD3TextPrimaryDark}}" VerticalOptions="End" />
+                                    <Label Grid.Row="1" Grid.Column="2" Text="Ayet Sayısı" FontSize="11" TextColor="{StaticResource MD3TextMuted}" HorizontalOptions="Center" VerticalOptions="Start" />
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                    <CollectionView.Footer>
+                        <BoxView HeightRequest="90" Color="Transparent" />
+                    </CollectionView.Footer>
+                </CollectionView>
+
+                <!-- Custom Scrollbar Track on the right -->
+                <Grid x:Name="ScrollTrackGrid"
+                      WidthRequest="48" 
+                      HorizontalOptions="End" 
+                      Margin="0,8,0,8"
+                      BackgroundColor="Transparent"
+                      ZIndex="11">
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnScrollTrackTapped" />
+                        <PanGestureRecognizer PanUpdated="OnScrollThumbPan" />
+                    </Grid.GestureRecognizers>
+                    
+                    <!-- Track line -->
+                    <BoxView WidthRequest="3" 
+                             CornerRadius="1.5" 
+                             BackgroundColor="{AppThemeBinding Light=#E0DCD3, Dark=#404040}" 
+                             HorizontalOptions="Center" 
+                             VerticalOptions="Fill" 
+                             InputTransparent="True" />
+                             
+                    <!-- Draggable Thumb Katmanı (Dokunmayı üst grid alacak) -->
+                    <Grid x:Name="ScrollThumbGrid" 
+                          HeightRequest="50"
+                          VerticalOptions="Start"
+                          HorizontalOptions="Fill"
+                          BackgroundColor="Transparent">
+                        <!-- Görsel Thumb -->
+                        <Border WidthRequest="10" 
+                                HeightRequest="50" 
+                                BackgroundColor="{AppThemeBinding Light=#2B604B, Dark={StaticResource MD3Primary}}" 
+                                HorizontalOptions="Center" 
+                                VerticalOptions="Center"
+                                InputTransparent="True">
+                            <Border.StrokeShape><RoundRectangle CornerRadius="5"/></Border.StrokeShape>
+                        </Border>
+                    </Grid>
+                </Grid>
+
+                <!-- Floating Action Button (FAB) - Okumaya Devam Et -->
+                <Border StrokeThickness="0" 
+                        Background="#2B604B"
+                        HorizontalOptions="End"
+                        VerticalOptions="End"
+                        Margin="16,16,24,24"
+                        Padding="16,12"
+                        ZIndex="10">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="20"/></Border.StrokeShape>
+                    <Border.GestureRecognizers><TapGestureRecognizer Command="{Binding ContinueReadingCommand}" Tapped="OnFabTapped" /></Border.GestureRecognizers>
+                    <HorizontalStackLayout Spacing="8">
+                        <Label Text="Okumaya Devam Et / Başla" TextColor="White" FontAttributes="Bold" VerticalOptions="Center" />
+                    </HorizontalStackLayout>
+                </Border>
+            </Grid>
+        </RefreshView>
+
+    </Grid>
+</ContentPage>

@@ -1,0 +1,73 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFrameworks>net10.0-android</TargetFrameworks>
+		<OutputType>Exe</OutputType>
+		<UseMaui>true</UseMaui>
+		<SingleProject>true</SingleProject>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+
+		<!-- Display name -->
+		<ApplicationTitle>Kur'an Meali</ApplicationTitle>
+
+		<!-- App Identifier -->
+		<ApplicationId>com.kuranmeali.app</ApplicationId>
+
+		<!-- Versions -->
+		<ApplicationDisplayVersion>1.2.0</ApplicationDisplayVersion>
+		<ApplicationVersion>12</ApplicationVersion>
+
+		<SupportedOSPlatformVersion>21.0</SupportedOSPlatformVersion>
+		<RuntimeIdentifiers>android-arm;android-arm64;android-x86;android-x64</RuntimeIdentifiers>
+		<!-- Do NOT compress SQLite database files in APK - required for large assets over 1MB -->
+		<AndroidNoCompress>.db</AndroidNoCompress>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<!-- Preserve our code and SQLite-net from being stripped by the Trimmer -->
+		<TrimmerRootAssembly Include="KuranMealApp" RootMode="All" />
+		<TrimmerRootAssembly Include="SQLite-net" RootMode="All" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<!-- App Icon -->
+		<MauiIcon Include="Resources\AppIcon\appicon.png" />
+
+		<!-- Splash Screen -->
+		<MauiSplashScreen Include="Resources\AppIcon\appicon.png" Color="#F9F6EE" BaseSize="128,128" />
+
+		<!-- Images -->
+		<MauiImage Include="Resources\Images\*" />
+
+		<!-- Custom Fonts -->
+		<MauiFont Include="Resources\Fonts\*" />
+
+		<!-- Raw Assets (Embedded files like SQLite database) -->
+		<MauiAsset Include="Resources\Raw\*" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Maui.Controls" Version="10.0.50" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.0" />
+		<PackageReference Include="sqlite-net-pcl" Version="1.9.172" />
+		<PackageReference Include="SQLiteNetExtensions" Version="2.1.0" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+		<PackageReference Include="SQLitePCLRaw.lib.e_sqlite3.android" Version="2.1.10" />
+	</ItemGroup>
+
+	<!-- Bundle kuran.db directly as an Android asset (disguised as mp3) to prevent MAUI from compressing it -->
+	<ItemGroup Condition="'$(TargetFramework)' == 'net10.0-android'">
+		<AndroidAsset Include="Platforms\Android\Assets\kuran.gz" />
+	</ItemGroup>
+
+	<!-- Android Release Signing Configuration -->
+	<PropertyGroup Condition="$(TargetFramework.Contains('-android')) and '$(Configuration)' == 'Release'">
+		<AndroidKeyStore>True</AndroidKeyStore>
+		<AndroidSigningKeyStore>ulgenzade.keystore</AndroidSigningKeyStore>
+		<AndroidSigningStorePass>ulgenzade</AndroidSigningStorePass>
+		<AndroidSigningKeyAlias>ulgenzade</AndroidSigningKeyAlias>
+		<AndroidSigningKeyPass>ulgenzade</AndroidSigningKeyPass>
+	</PropertyGroup>
+
+</Project>
