@@ -38,7 +38,7 @@ render.experimental.xml
 apks/
 output-metadata.json
 
-# Keystore —
+# Keystore
 *.jks
 *.keystore
 
