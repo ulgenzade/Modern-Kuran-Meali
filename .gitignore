@@ -1,4 +1,19 @@
-# Gradle files
+# .NET / MAUI build çıktıları
+bin/
+obj/
+**/bin/
+**/obj/
+
+# Visual Studio / Antigravity IDE
+.vs/
+*.user
+*.suo
+
+# Python (varsa scripts klasöründeki yardımcı scriptler için)
+__pycache__/
+*.pyc
+
+# Gradle files (Android native build ara katmanı, MAUI içinde de oluşabilir)
 .gradle/
 build/
 
@@ -12,6 +27,8 @@ local.properties
 captures/
 .externalNativeBuild/
 .cxx/
+
+# Build çıktıları
 *.aab
 *.apk
 output-metadata.json
@@ -23,7 +40,7 @@ misc.xml
 deploymentTargetDropDown.xml
 render.experimental.xml
 
-# Keystore files
+# Keystore files — KESİNLİKLE yüklenmemeli
 *.jks
 *.keystore
 
@@ -32,3 +49,9 @@ google-services.json
 
 # Android Profiling
 *.hprof
+
+# Büyük veri dosyaları (git için uygun değil, ayrı tutulmalı)
+kuran.db
+
+# apks arşiv klasörü (zaten *.apk ile örtüşüyor ama netlik için)
+apks/
