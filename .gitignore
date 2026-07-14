@@ -24,6 +24,7 @@ captures/
 
 # Log dosyaları
 *.log
+docs/
 
 # IntelliJ
 *.iml
@@ -38,7 +39,7 @@ render.experimental.xml
 apks/
 output-metadata.json
 
-# Keystore —
+# Keystore
 *.jks
 *.keystore
 
