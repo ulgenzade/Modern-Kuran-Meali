@@ -9,9 +9,10 @@ obj/
 *.user
 *.suo
 
-# Python (varsa scripts klasöründeki yardımcı scriptler için)
+# Python 
 __pycache__/
 *.pyc
+scripts/
 
 # Gradle files (Android native build ara katmanı, MAUI içinde de oluşabilir)
 .gradle/
