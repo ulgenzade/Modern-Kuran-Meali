@@ -9,30 +9,21 @@ obj/
 *.user
 *.suo
 
-# Python 
+# Python
 __pycache__/
 *.pyc
 scripts/
 
-# Gradle files (Android native build ara katmanı, MAUI içinde de oluşabilir)
+# Gradle / Android native ara katman
 .gradle/
 build/
-
-# Local configuration file (sdk path, etc)
 local.properties
-
-# Log/OS Files
-*.log
-
-# Android Studio generated files and folders
 captures/
 .externalNativeBuild/
 .cxx/
 
-# Build çıktıları
-*.aab
-*.apk
-output-metadata.json
+# Log dosyaları
+*.log
 
 # IntelliJ
 *.iml
@@ -41,18 +32,18 @@ misc.xml
 deploymentTargetDropDown.xml
 render.experimental.xml
 
-# Keystore files — KESİNLİKLE yüklenmemeli
+# Build çıktıları (APK/AAB)
+*.aab
+*.apk
+apks/
+output-metadata.json
+
+# Keystore —
 *.jks
 *.keystore
 
-# Google Services (e.g. APIs or Firebase)
+# Google Services
 google-services.json
 
 # Android Profiling
 *.hprof
-
-# Büyük veri dosyaları
-kuran.db
-
-# apks arşiv klasörü 
-apks/
