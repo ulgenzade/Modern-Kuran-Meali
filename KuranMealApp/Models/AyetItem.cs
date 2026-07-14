@@ -20,9 +20,6 @@ public class AyetItem : INotifyPropertyChanged {
     private bool _isNuzulExpanded;
     public bool IsNuzulExpanded { get => _isNuzulExpanded; set { _isNuzulExpanded = value; OnPropertyChanged(); } }
     
-    private string _fontFamilyName = "OpenSansRegular";
-    public string FontFamilyName { get => _fontFamilyName; set { _fontFamilyName = value; OnPropertyChanged(); } }
-    
     public AyetItem(Ayet ayet) {
         AyetId = ayet.Id;
         SureId = ayet.SureId;

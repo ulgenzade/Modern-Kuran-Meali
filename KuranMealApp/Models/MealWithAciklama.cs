@@ -16,9 +16,6 @@ public class MealWithAciklama : INotifyPropertyChanged {
     private bool _isAciklamaExpanded;
     public bool IsAciklamaExpanded { get => _isAciklamaExpanded; set { _isAciklamaExpanded = value; OnPropertyChanged(); } }
     
-    private string _fontFamilyName = "OpenSansRegular";
-    public string FontFamilyName { get => _fontFamilyName; set { _fontFamilyName = value; OnPropertyChanged(); } }
-    
     public MealWithAciklama(Meal meal, string aciklama) {
         MealId = meal.Id;
         YazarAdi = meal.YazarAdi;

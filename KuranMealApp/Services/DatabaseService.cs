@@ -129,10 +129,13 @@ public class DatabaseService : IDatabaseService
             await Task.Run(async () =>
             {
                 var context = Android.App.Application.Context;
-                using var assetStream = context.Assets.Open("kuran.gz");
-                using var gzipStream = new System.IO.Compression.GZipStream(assetStream, System.IO.Compression.CompressionMode.Decompress);
-                using var newStream = new FileStream(_dbPath, FileMode.Create, FileAccess.Write, FileShare.None, 81920, useAsync: true);
-                await gzipStream.CopyToAsync(newStream);
+                if (context != null && context.Assets != null)
+                {
+                    using var assetStream = context.Assets.Open("kuran.gz");
+                    using var gzipStream = new System.IO.Compression.GZipStream(assetStream, System.IO.Compression.CompressionMode.Decompress);
+                    using var newStream = new FileStream(_dbPath, FileMode.Create, FileAccess.Write, FileShare.None, 81920, useAsync: true);
+                    await gzipStream.CopyToAsync(newStream);
+                }
             });
             return true;
 #else

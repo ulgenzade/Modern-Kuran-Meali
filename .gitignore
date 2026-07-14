@@ -1,7 +1,49 @@
-.vs/
+# .NET / MAUI build çıktıları
 bin/
 obj/
-__pycache__/
-*.apk
-*.db
+**/bin/
+**/obj/
+
+# Visual Studio / Antigravity IDE
+.vs/
 *.user
+*.suo
+
+# Python
+__pycache__/
+*.pyc
+scripts/
+
+# Gradle / Android native ara katman
+.gradle/
+build/
+local.properties
+captures/
+.externalNativeBuild/
+.cxx/
+
+# Log dosyaları
+*.log
+
+# IntelliJ
+*.iml
+.idea/
+misc.xml
+deploymentTargetDropDown.xml
+render.experimental.xml
+
+# Build çıktıları (APK/AAB)
+*.aab
+*.apk
+apks/
+output-metadata.json
+
+# Keystore — KESİNLİKLE yüklenmemeli
+*.jks
+*.keystore
+
+# Google Services
+google-services.json
+
+# Android Profiling
+*.hprof

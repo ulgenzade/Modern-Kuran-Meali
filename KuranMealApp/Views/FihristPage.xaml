@@ -8,7 +8,6 @@
              BackgroundColor="{AppThemeBinding Light={StaticResource MD3Surface}, Dark={StaticResource MD3SurfaceDark}}">
 
     <Grid RowDefinitions="Auto, *">
-        <!-- Header -->
         <Border Grid.Row="0" StrokeThickness="0" Background="{AppThemeBinding Light={StaticResource MD3PrimaryContainer}, Dark={StaticResource MD3SurfaceDark}}" Padding="16,20,16,20">
             <Border.StrokeShape>
                 <RoundRectangle CornerRadius="0,0,24,24" />
@@ -25,7 +24,6 @@
             </VerticalStackLayout>
         </Border>
 
-        <!-- Fihrist Listesi -->
         <CollectionView Grid.Row="1" Margin="16" ItemsSource="{Binding Konular}">
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="viewmodels:FihristKonu">
@@ -37,8 +35,8 @@
                         <Grid ColumnDefinitions="Auto, *, Auto" ColumnSpacing="16">
                             <Label Grid.Column="0" Text="{Binding İkon}" FontSize="32" VerticalOptions="Center" />
                             <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="4">
-                                <Label Text="{Binding Baslik}" FontAttributes="Bold" FontSize="18" TextColor="{AppThemeBinding Light={StaticResource MD3TextPrimary}, Dark={StaticResource MD3TextPrimaryDark}}" />
-                                <Label Text="{Binding Aciklama}" Style="{StaticResource BodyMedium}" TextColor="{StaticResource MD3TextSecondary}" />
+                                <Label Text="{Binding Baslik}" FontAttributes="Bold" FontSize="18" FontFamily="{DynamicResource AppFontFamily}" TextColor="{AppThemeBinding Light={StaticResource MD3TextPrimary}, Dark={StaticResource MD3TextPrimaryDark}}" />
+                                <Label Text="{Binding Aciklama}" Style="{StaticResource BodyMedium}" FontFamily="{DynamicResource AppFontFamily}" TextColor="{StaticResource MD3TextSecondary}" />
                             </VerticalStackLayout>
                             <Label Grid.Column="2" Text="▶" VerticalOptions="Center" TextColor="{StaticResource MD3TextSecondary}" />
                         </Grid>

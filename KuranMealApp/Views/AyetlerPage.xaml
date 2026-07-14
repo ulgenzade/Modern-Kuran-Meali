@@ -10,13 +10,9 @@
 
     <Grid RowDefinitions="Auto,Auto,*" Margin="0">
 
-        <!-- ═══════════════════════════════════════════════════════════ -->
-        <!-- 1. TOP APP BAR — Açık Mavi Header (Geri + Başlık + ⚙ + 🔍)  -->
-        <!-- ═══════════════════════════════════════════════════════════ -->
         <Border Grid.Row="0" StrokeThickness="0" Padding="16,10,16,12" Background="{AppThemeBinding Light=#F9F6EE, Dark={StaticResource MD3SurfaceVariantDark}}" ZIndex="5">
             <Border.StrokeShape><RoundRectangle CornerRadius="0,0,0,0"/></Border.StrokeShape>
             <Grid ColumnDefinitions="Auto,*" ColumnSpacing="4">
-                <!-- Geri -->
                 <Button Grid.Column="0"
                         Text="← Geri"
                         Style="{StaticResource TonalButton}"
@@ -25,9 +21,7 @@
                         Padding="12,0"
                         Clicked="OnBackClicked" />
 
-                <!-- Başlık (Sure ve Ayet) -->
                 <HorizontalStackLayout Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Center" Spacing="8">
-                    <!-- Sure Seçici Tetikleyici -->
                     <Border StrokeThickness="0" Background="Transparent" Padding="8,4">
                         <Border.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding ToggleSurePickerCommand}" />
@@ -41,7 +35,6 @@
                         </HorizontalStackLayout>
                     </Border>
                     
-                    <!-- Ayet Seçici Tetikleyici -->
                     <Border StrokeThickness="0" Background="{AppThemeBinding Light={StaticResource MD3PrimaryContainer}, Dark={StaticResource MD3SurfaceDark}}" Padding="8,4">
                         <Border.StrokeShape><RoundRectangle CornerRadius="8"/></Border.StrokeShape>
                         <Border.GestureRecognizers>
@@ -61,17 +54,12 @@
             </Grid>
         </Border>
 
-        <!-- ═══════════════════════════════════════════════════════════ -->
-        <!-- 2. HIZLI NAVİGASYON VE AYARLAR (Sub-header)                -->
-        <!-- ═══════════════════════════════════════════════════════════ -->
         <Border Grid.Row="1" StrokeThickness="0" Background="{AppThemeBinding Light=#F9F6EE, Dark={StaticResource MD3SurfaceVariantDark}}" Padding="16,0,16,12" ZIndex="5">
             <Border.StrokeShape><RoundRectangle CornerRadius="0,0,16,16"/></Border.StrokeShape>
             <Border.Shadow><Shadow Brush="Black" Opacity="0.15" Offset="0,4" Radius="8"/></Border.Shadow>
             <VerticalStackLayout Spacing="12">
                 
-                <!-- Üst Satır: Karanlık Mod ve Mealci Seçme -->
                 <Grid ColumnDefinitions="Auto,*,Auto">
-                    <!-- Karanlık Mod Butonu -->
                     <Button Grid.Column="0" 
                             Text="{Binding DarkModeButtonText}"
                             Command="{Binding ToggleDarkModeCommand}"
@@ -86,13 +74,10 @@
                     </Border>
                 </Grid>
                 
-                <!-- Alt Satır: Dikey / Yatay Toggle & Klasik / İniş Toggle -->
                 <Grid ColumnDefinitions="*,*">
-                    <!-- Okuma Modu (Yatay/Dikey) Pill -->
                     <Border Grid.Column="0" StrokeThickness="0" Background="{AppThemeBinding Light=#FFFFFF, Dark={StaticResource MD3SurfaceDark}}" Padding="4" Margin="0,0,8,0">
                         <Border.StrokeShape><RoundRectangle CornerRadius="20" /></Border.StrokeShape>
                         <Grid ColumnDefinitions="*,*">
-                            <!-- Dikey -->
                             <Border Grid.Column="0" StrokeThickness="0">
                                 <Border.Style>
                                     <Style TargetType="Border">
@@ -119,7 +104,6 @@
                                     </Label.Style>
                                 </Label>
                             </Border>
-                            <!-- Yatay -->
                             <Border Grid.Column="1" StrokeThickness="0">
                                 <Border.Style>
                                     <Style TargetType="Border">
@@ -149,11 +133,9 @@
                         </Grid>
                     </Border>
                 
-                <!-- Okuma Türü (Klasik/İniş) Pill -->
                 <Border Grid.Column="1" StrokeThickness="0" Background="{AppThemeBinding Light=#FFFFFF, Dark={StaticResource MD3SurfaceDark}}" Padding="4" Margin="8,0,0,0">
                     <Border.StrokeShape><RoundRectangle CornerRadius="20" /></Border.StrokeShape>
                     <Grid ColumnDefinitions="*,*">
-                        <!-- Klasik -->
                         <Border Grid.Column="0" StrokeThickness="0">
                             <Border.Style>
                                 <Style TargetType="Border">
@@ -180,11 +162,10 @@
                                             </DataTrigger>
                                         </Style.Triggers>
                                     </Style>
-                                </Label.Style>
-                            </Label>
-                        </Border>
-                        <!-- İniş -->
-                        <Border Grid.Column="1" StrokeThickness="0">
+                                    </Label.Style>
+                                </Label>
+                            </Border>
+                            <Border Grid.Column="1" StrokeThickness="0">
                             <Border.Style>
                                 <Style TargetType="Border">
                                     <Setter Property="Background" Value="Transparent" />
@@ -219,12 +200,8 @@
         </VerticalStackLayout>
         </Border>
 
-        <!-- ═══════════════════════════════════════════════════════════ -->
-        <!-- 3. ANA İÇERİK ALANI                                        -->
-        <!-- ═══════════════════════════════════════════════════════════ -->
         <Grid Grid.Row="2">
 
-            <!-- Loading Overlay -->
             <Grid IsVisible="{Binding IsBusy}"
                   InputTransparent="False"
                   ZIndex="100"
@@ -236,14 +213,11 @@
                                        WidthRequest="48"
                                        HeightRequest="48" />
                     <Label Text="{Binding LoadingMessage}"
-                           Style="{StaticResource BodyMedium}"
+                            Style="{StaticResource BodyMedium}"
                            HorizontalOptions="Center" />
                 </VerticalStackLayout>
             </Grid>
 
-            <!-- ─────────────────────────────────────────── -->
-            <!-- A. DİKEY MOD — Grouped CollectionView       -->
-            <!-- ─────────────────────────────────────────── -->
             <CollectionView x:Name="AyetListView"
                             ItemsSource="{Binding AyetGroups}"
                             IsGrouped="True"
@@ -253,26 +227,22 @@
                             VerticalScrollBarVisibility="Never"
                             ItemSizingStrategy="MeasureAllItems">
 
-                <!-- Grup (Sure) başlığı gizlendi çünkü yukarıdaki hapta var -->
                 <CollectionView.GroupHeaderTemplate>
                     <DataTemplate x:DataType="vm:SureGroup">
                         <BoxView HeightRequest="4" Color="Transparent" />
                     </DataTemplate>
                 </CollectionView.GroupHeaderTemplate>
 
-                <!-- Ayet kartı -->
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:AyetItem">
                         <Border Style="{StaticResource ElevatedCard}" Padding="16,16,16,12" Margin="0,4,0,10">
                             <VerticalStackLayout Spacing="12" CompressedLayout.IsHeadless="True">
                                 
-                                <!-- Ayet Numarası Rozeti -->
                                 <Border StrokeThickness="0" Background="{StaticResource MD3PrimaryContainer}" HorizontalOptions="Start" Padding="10,4">
                                     <Border.StrokeShape><RoundRectangle CornerRadius="8"/></Border.StrokeShape>
                                     <Label Text="{Binding AyetNo, StringFormat='{0}. Ayet', Mode=OneTime}" FontSize="13" FontAttributes="Bold" TextColor="{StaticResource MD3OnPrimaryContainer}" />
                                 </Border>
 
-                                <!-- Arapça metin -->
                                 <Label Text="{Binding ArapcaMetin, Mode=OneTime}"
                                        LineBreakMode="WordWrap"
                                        HorizontalTextAlignment="Center"
@@ -280,7 +250,6 @@
                                        FontSize="{Binding BindingContext.ArabicFontSize, Source={x:Reference page}}"
                                        TextColor="{AppThemeBinding Light={StaticResource ArabicTextColor}, Dark={StaticResource ArabicTextColorDark}}" />
 
-                                <!-- Transkript -->
                                 <Label Text="{Binding Transkript, Mode=OneTime}"
                                        FontAttributes="Italic"
                                        HorizontalTextAlignment="Center"
@@ -288,15 +257,13 @@
                                        FontSize="{Binding BindingContext.TranscriptFontSize, Source={x:Reference page}}"
                                        TextColor="{StaticResource TranscriptColor}" />
 
-                                    <BoxView HeightRequest="1" Color="{StaticResource MD3Outline}" Margin="0,4" />
+                                     <BoxView HeightRequest="1" Color="{StaticResource MD3Outline}" Margin="0,4" />
 
-                                    <!-- ══ MEALLER ══ -->
-                                <StackLayout BindableLayout.ItemsSource="{Binding Mealler}" Spacing="12" CompressedLayout.IsHeadless="True">
-                                    <BindableLayout.ItemTemplate>
-                                        <DataTemplate x:DataType="models:MealWithAciklama">
-                                            <VerticalStackLayout Spacing="4" CompressedLayout.IsHeadless="True">
-                                                <!-- Yazar + Meal (Aynı paragraf gibi) -->
-                                <Label FontFamily="{DynamicResource AppFontFamily}"
+                                 <StackLayout BindableLayout.ItemsSource="{Binding Mealler}" Spacing="12" CompressedLayout.IsHeadless="True">
+                                     <BindableLayout.ItemTemplate>
+                                         <DataTemplate x:DataType="models:MealWithAciklama">
+                                             <VerticalStackLayout Spacing="4" CompressedLayout.IsHeadless="True">
+                                 <Label FontFamily="{DynamicResource AppFontFamily}"
                                        FontSize="{Binding BindingContext.MealFontSize, Source={x:Reference page}}"
                                                        TextColor="{AppThemeBinding Light={StaticResource MD3TextPrimary}, Dark={StaticResource MD3TextPrimaryDark}}"
                                                        LineBreakMode="WordWrap">
@@ -305,14 +272,13 @@
                                                     </Label.GestureRecognizers>
                                                     <Label.FormattedText>
                                                         <FormattedString>
-                                                            <Span Text="{Binding DisplayYazarAdi, Mode=OneTime}" FontAttributes="Bold" />
-                                                            <Span Text="{Binding MealMetni, Mode=OneTime}" />
+                                                            <Span Text="{Binding DisplayYazarAdi, Mode=OneTime}" FontAttributes="Bold" FontFamily="{DynamicResource AppFontFamily}" />
+                                                            <Span Text="{Binding MealMetni, Mode=OneTime}" FontFamily="{DynamicResource AppFontFamily}" />
                                                         </FormattedString>
-                                                    </Label.FormattedText>
-                                                </Label>
+                                                     </Label.FormattedText>
+                                                 </Label>
 
-                                                    <!-- Açıklama içerik kutusu (Tefsir) -->
-                                                <Border IsVisible="{Binding IsAciklamaExpanded}"
+                                                 <Border IsVisible="{Binding IsAciklamaExpanded}"
                                                         StrokeThickness="0"
                                                         Background="{StaticResource MD3SecondaryContainer}"
                                                         Padding="12,10"
@@ -330,20 +296,19 @@
                                            TextColor="{StaticResource MD3OnSecondaryContainer}"
                                            VerticalOptions="Center" />
                                 </HorizontalStackLayout>
-                                <Label Text="{Binding AciklamaMetni, Mode=OneTime}"
-                                       FontFamily="{DynamicResource AppFontFamily}"
-                                       FontSize="{Binding BindingContext.AciklamaFontSize, Source={x:Reference page}}"
-                                       TextColor="{StaticResource MD3OnSecondaryContainer}"
-                                       LineBreakMode="WordWrap" />
-                                                    </VerticalStackLayout>
-                                                </Border>
-                                            </VerticalStackLayout>
-                                        </DataTemplate>
-                                    </BindableLayout.ItemTemplate>
-                                </StackLayout>
+                                 <Label Text="{Binding AciklamaMetni, Mode=OneTime}"
+                                        FontFamily="{DynamicResource AppFontFamily}"
+                                        FontSize="{Binding BindingContext.AciklamaFontSize, Source={x:Reference page}}"
+                                        TextColor="{StaticResource MD3OnSecondaryContainer}"
+                                        LineBreakMode="WordWrap" />
+                                                     </VerticalStackLayout>
+                                                 </Border>
+                                             </VerticalStackLayout>
+                                         </DataTemplate>
+                                     </BindableLayout.ItemTemplate>
+                                 </StackLayout>
 
-                                <!-- İniş sebebi içerik kutusu -->
-                                <Border IsVisible="{Binding IsNuzulExpanded}"
+                                 <Border IsVisible="{Binding IsNuzulExpanded}"
                                         StrokeThickness="0"
                                         Background="{StaticResource MD3PrimaryContainer}"
                                         Padding="14,10"
@@ -365,30 +330,27 @@
                                         FontSize="13"
                                         TextColor="{StaticResource MD3OnPrimaryContainer}"
                                         LineBreakMode="WordWrap" />
-                                    </VerticalStackLayout>
-                                </Border>
+                                     </VerticalStackLayout>
+                                 </Border>
 
-                                <!-- ══ AKSİYON BUTONLARI (Alt Bar) ══ -->
-                                <VerticalStackLayout Margin="0,8,0,0" CompressedLayout.IsHeadless="True">
-                                    <FlexLayout Wrap="Wrap" Direction="Row" JustifyContent="Center" AlignItems="Center">
-                                        
-                                        <!-- Nüzul Sebebi Butonu -->
-                                        <Border IsVisible="{Binding HasNuzulSebebi, Mode=OneTime}" Stroke="{StaticResource MD3Outline}" StrokeThickness="1" Background="Transparent" Padding="12,8" Margin="4">
+                                 <VerticalStackLayout Margin="0,8,0,0" CompressedLayout.IsHeadless="True">
+                                     <FlexLayout Wrap="Wrap" Direction="Row" JustifyContent="Center" AlignItems="Center">
+                                         
+                                         <Border IsVisible="{Binding HasNuzulSebebi, Mode=OneTime}" Stroke="{StaticResource MD3Outline}" StrokeThickness="1" Background="Transparent" Padding="12,8" Margin="4">
                                             <Border.StrokeShape><RoundRectangle CornerRadius="20" /></Border.StrokeShape>
                                             <Border.GestureRecognizers>
-                                                <TapGestureRecognizer Command="{Binding BindingContext.ShowNuzulPopupCommand, Source={x:Reference page}}" CommandParameter="{Binding .}" />
+                                                <TapGestureRecognizer Command="{Binding BindingContext.ShowNuzulPopupCommand, Source={x:Reference page}}" CommandParameter="{Binding .}" Tapped="OnPillButtonTapped" />
                                             </Border.GestureRecognizers>
                                             <HorizontalStackLayout Spacing="6" VerticalOptions="Center" CompressedLayout.IsHeadless="True">
                                                 <Label Text="ℹ️" FontSize="14" VerticalOptions="Center" />
                                                 <Label Text="Nüzul Sebebi" FontSize="13" TextColor="{AppThemeBinding Light={StaticResource MD3TextPrimary}, Dark={StaticResource MD3TextPrimaryDark}}" VerticalOptions="Center" />
-                                            </HorizontalStackLayout>
-                                        </Border>
+                                             </HorizontalStackLayout>
+                                         </Border>
 
-                                        <!-- Tefsir Butonu -->
-                                        <Border IsVisible="{Binding HasTefsir, Mode=OneTime}" Stroke="{StaticResource MD3Outline}" StrokeThickness="1" Background="Transparent" Padding="12,8" Margin="4">
+                                         <Border IsVisible="{Binding HasTefsir, Mode=OneTime}" Stroke="{StaticResource MD3Outline}" StrokeThickness="1" Background="Transparent" Padding="12,8" Margin="4">
                                             <Border.StrokeShape><RoundRectangle CornerRadius="20" /></Border.StrokeShape>
                                             <Border.GestureRecognizers>
-                                                <TapGestureRecognizer Command="{Binding BindingContext.ShowTefsirPopupCommand, Source={x:Reference page}}" CommandParameter="{Binding .}" />
+                                                <TapGestureRecognizer Command="{Binding BindingContext.ShowTefsirPopupCommand, Source={x:Reference page}}" CommandParameter="{Binding .}" Tapped="OnPillButtonTapped" />
                                             </Border.GestureRecognizers>
                                             <HorizontalStackLayout Spacing="6" VerticalOptions="Center" CompressedLayout.IsHeadless="True">
                                                 <Label Text="📖" FontSize="14" VerticalOptions="Center" />
@@ -402,16 +364,14 @@
                             </VerticalStackLayout>
                         </Border>
                     </DataTemplate>
-                </CollectionView.ItemTemplate>
+                 </CollectionView.ItemTemplate>
 
-                <!-- Alt kısımda boşluk bırakıyoruz ki kaydırınca butonların altında kalmasın -->
-                <CollectionView.Footer>
+                 <CollectionView.Footer>
                     <BoxView HeightRequest="80" Color="Transparent" />
-                </CollectionView.Footer>
-            </CollectionView>
+                 </CollectionView.Footer>
+             </CollectionView>
 
-            <!-- Custom Scrollbar Track on the right for Vertical Mode -->
-            <Grid x:Name="AyetScrollTrackGrid" 
+             <Grid x:Name="AyetScrollTrackGrid" 
                   WidthRequest="48" 
                   HorizontalOptions="End" 
                   Margin="0,8,0,90"
@@ -420,26 +380,23 @@
                   ZIndex="11">
                 <Grid.GestureRecognizers>
                     <TapGestureRecognizer Tapped="OnAyetScrollTrackTapped" />
-                    <PanGestureRecognizer PanUpdated="OnAyetScrollThumbPan" />
-                </Grid.GestureRecognizers>
-                
-                <!-- Track line -->
-                <BoxView WidthRequest="3" 
+                     <PanGestureRecognizer PanUpdated="OnAyetScrollThumbPan" />
+                 </Grid.GestureRecognizers>
+                 
+                 <BoxView WidthRequest="3" 
                          CornerRadius="1.5" 
                          BackgroundColor="{AppThemeBinding Light=#E0DCD3, Dark=#404040}" 
                          HorizontalOptions="Center" 
-                         VerticalOptions="Fill"
-                         InputTransparent="True" />
-                         
-                <!-- Draggable Thumb Katmanı -->
-                <Grid x:Name="AyetScrollThumbGrid" 
+                          VerticalOptions="Fill"
+                          InputTransparent="True" />
+                          
+                 <Grid x:Name="AyetScrollThumbGrid" 
                       HeightRequest="60" 
                       VerticalOptions="Start"
-                      HorizontalOptions="Fill"
-                      BackgroundColor="Transparent"
-                      Opacity="0.8">
-                    <!-- Görsel Thumb -->
-                    <Border WidthRequest="14" 
+                       HorizontalOptions="Fill"
+                       BackgroundColor="Transparent"
+                       Opacity="0.8">
+                     <Border WidthRequest="14" 
                             HeightRequest="60" 
                             BackgroundColor="{AppThemeBinding Light=#2B604B, Dark={StaticResource MD3Primary}}" 
                             HorizontalOptions="Center" 
@@ -447,51 +404,46 @@
                             InputTransparent="True">
                         <Border.StrokeShape><RoundRectangle CornerRadius="7"/></Border.StrokeShape>
                     </Border>
-                </Grid>
-            </Grid>
+                 </Grid>
+             </Grid>
 
-            <!-- ─────────────────────────────────────────── -->
-            <!-- B. YATAY KAYDIRMA MODU (CarouselView)       -->
-            <!-- ─────────────────────────────────────────── -->
-            <CarouselView x:Name="AyetCarouselView"
+             <CarouselView x:Name="AyetCarouselView"
                           ItemsSource="{Binding FlatAyetler}"
                           IsVisible="{Binding IsHorizontalMode}"
                           CurrentItemChanged="OnCarouselCurrentItemChanged"
                           PeekAreaInsets="0">
-                <CarouselView.ItemTemplate>
-                    <DataTemplate x:DataType="models:AyetItem">
-                        <ScrollView Padding="16">
-                            <!-- Aynı Ayet Kartı Yapısı (Dikey moddakiyle aynı) -->
-                            <Border Style="{StaticResource ElevatedCard}" Padding="16,16,16,12">
-                                <VerticalStackLayout Spacing="12">
-                                    <!-- Ayet Numarası Rozeti -->
-                                    <Border StrokeThickness="0" Background="{StaticResource MD3PrimaryContainer}" HorizontalOptions="Start" Padding="10,4">
+                 <CarouselView.ItemTemplate>
+                     <DataTemplate x:DataType="models:AyetItem">
+                         <ScrollView Padding="16">
+                             <Border Style="{StaticResource ElevatedCard}" Padding="16,16,16,12">
+                                 <VerticalStackLayout Spacing="12">
+                                     <Border StrokeThickness="0" Background="{StaticResource MD3PrimaryContainer}" HorizontalOptions="Start" Padding="10,4">
                                         <Border.StrokeShape><RoundRectangle CornerRadius="8"/></Border.StrokeShape>
                                         <Label Text="{Binding AyetNo, StringFormat='{0}. Ayet'}" FontSize="13" FontAttributes="Bold" TextColor="{StaticResource MD3OnPrimaryContainer}" />
                                     </Border>
                                     
                                     <Label Text="{Binding ArapcaMetin}" LineBreakMode="WordWrap" HorizontalTextAlignment="Center" FontFamily="ArabicMushaf" FontSize="{Binding BindingContext.ArabicFontSize, Source={x:Reference page}}" TextColor="{AppThemeBinding Light={StaticResource ArabicTextColor}, Dark={StaticResource ArabicTextColorDark}}" />
-                                    <Label Text="{Binding Transkript}" FontAttributes="Italic" HorizontalTextAlignment="Center" FontFamily="{Binding FontFamilyName}" FontSize="{Binding BindingContext.TranscriptFontSize, Source={x:Reference page}}" TextColor="{StaticResource TranscriptColor}" />
+                                    <Label Text="{Binding Transkript}" FontAttributes="Italic" HorizontalTextAlignment="Center" FontFamily="{DynamicResource AppFontFamily}" FontSize="{Binding BindingContext.TranscriptFontSize, Source={x:Reference page}}" TextColor="{StaticResource TranscriptColor}" />
                                     <BoxView HeightRequest="1" Color="{StaticResource MD3Outline}" Margin="0,4" />
                                     <StackLayout BindableLayout.ItemsSource="{Binding Mealler}" Spacing="12">
                                         <BindableLayout.ItemTemplate>
                                             <DataTemplate x:DataType="models:MealWithAciklama">
                                                 <VerticalStackLayout Spacing="4">
-                                                    <Label FontFamily="{Binding FontFamilyName}" FontSize="{Binding BindingContext.MealFontSize, Source={x:Reference page}}" TextColor="{AppThemeBinding Light={StaticResource MD3TextPrimary}, Dark={StaticResource MD3TextPrimaryDark}}" LineBreakMode="WordWrap">
+                                                    <Label FontFamily="{DynamicResource AppFontFamily}" FontSize="{Binding BindingContext.MealFontSize, Source={x:Reference page}}" TextColor="{AppThemeBinding Light={StaticResource MD3TextPrimary}, Dark={StaticResource MD3TextPrimaryDark}}" LineBreakMode="WordWrap">
                                                         <Label.GestureRecognizers>
                                                             <TapGestureRecognizer Command="{Binding BindingContext.ToggleAciklamaCommand, Source={x:Reference page}}" CommandParameter="{Binding .}" />
                                                         </Label.GestureRecognizers>
                                                         <Label.FormattedText>
                                                             <FormattedString>
-                                                                <Span Text="{Binding DisplayYazarAdi}" FontAttributes="Bold" />
-                                                                <Span Text="{Binding MealMetni}" />
+                                                                <Span Text="{Binding DisplayYazarAdi}" FontAttributes="Bold" FontFamily="{DynamicResource AppFontFamily}" />
+                                                                <Span Text="{Binding MealMetni}" FontFamily="{DynamicResource AppFontFamily}" />
                                                             </FormattedString>
                                                         </Label.FormattedText>
                                                     </Label>
                                                     <Border IsVisible="{Binding IsAciklamaExpanded}" StrokeThickness="0" Background="{StaticResource MD3SecondaryContainer}" Padding="12,10" Margin="0,4,0,0">
                                                         <Border.StrokeShape><RoundRectangle CornerRadius="8" /></Border.StrokeShape>
                                                         <VerticalStackLayout Spacing="6">
-                                                            <Label Text="{Binding AciklamaMetni}" FontFamily="{Binding FontFamilyName}" FontSize="{Binding BindingContext.AciklamaFontSize, Source={x:Reference page}}" TextColor="{StaticResource MD3OnSecondaryContainer}" LineBreakMode="WordWrap" />
+                                                            <Label Text="{Binding AciklamaMetni}" FontFamily="{DynamicResource AppFontFamily}" FontSize="{Binding BindingContext.AciklamaFontSize, Source={x:Reference page}}" TextColor="{StaticResource MD3OnSecondaryContainer}" LineBreakMode="WordWrap" />
                                                         </VerticalStackLayout>
                                                     </Border>
                                                 </VerticalStackLayout>
@@ -501,30 +453,27 @@
                                     <Border IsVisible="{Binding IsNuzulExpanded}" StrokeThickness="0" Background="{StaticResource MD3PrimaryContainer}" Padding="14,10" Margin="0,4,0,0">
                                         <Border.StrokeShape><RoundRectangle CornerRadius="8" /></Border.StrokeShape>
                                         <VerticalStackLayout Spacing="6">
-                                            <Label Text="{Binding NuzulSebebiText}" FontFamily="{Binding FontFamilyName}" FontSize="13" TextColor="{StaticResource MD3OnPrimaryContainer}" LineBreakMode="WordWrap" />
+                                            <Label Text="{Binding NuzulSebebiText}" FontFamily="{DynamicResource AppFontFamily}" FontSize="13" TextColor="{StaticResource MD3OnPrimaryContainer}" LineBreakMode="WordWrap" />
                                         </VerticalStackLayout>
                                     </Border>
-                                    <!-- ══ AKSİYON BUTONLARI (Alt Bar) ══ -->
-                                    <VerticalStackLayout Margin="0,8,0,0">
-                                        <FlexLayout Wrap="Wrap" Direction="Row" JustifyContent="Center" AlignItems="Center">
-                                            
-                                            <!-- Nüzul Sebebi Butonu -->
-                                            <Border IsVisible="{Binding HasNuzulSebebi}" Stroke="{StaticResource MD3Outline}" StrokeThickness="1" Background="Transparent" Padding="12,8" Margin="4">
+                                     <VerticalStackLayout Margin="0,8,0,0">
+                                         <FlexLayout Wrap="Wrap" Direction="Row" JustifyContent="Center" AlignItems="Center">
+                                             
+                                             <Border IsVisible="{Binding HasNuzulSebebi}" Stroke="{StaticResource MD3Outline}" StrokeThickness="1" Background="Transparent" Padding="12,8" Margin="4">
                                                 <Border.StrokeShape><RoundRectangle CornerRadius="20" /></Border.StrokeShape>
                                                 <Border.GestureRecognizers>
-                                                    <TapGestureRecognizer Command="{Binding BindingContext.ShowNuzulPopupCommand, Source={x:Reference page}}" CommandParameter="{Binding .}" />
+                                                    <TapGestureRecognizer Command="{Binding BindingContext.ShowNuzulPopupCommand, Source={x:Reference page}}" CommandParameter="{Binding .}" Tapped="OnPillButtonTapped" />
                                                 </Border.GestureRecognizers>
                                                 <HorizontalStackLayout Spacing="6" VerticalOptions="Center">
                                                     <Label Text="ℹ️" FontSize="14" VerticalOptions="Center" />
                                                     <Label Text="Nüzul Sebebi" FontSize="13" TextColor="{AppThemeBinding Light={StaticResource MD3TextPrimary}, Dark={StaticResource MD3TextPrimaryDark}}" VerticalOptions="Center" />
                                                 </HorizontalStackLayout>
-                                            </Border>
+                                             </Border>
 
-                                            <!-- Tefsir Butonu -->
-                                            <Border IsVisible="{Binding HasTefsir}" Stroke="{StaticResource MD3Outline}" StrokeThickness="1" Background="Transparent" Padding="12,8" Margin="4">
+                                             <Border IsVisible="{Binding HasTefsir}" Stroke="{StaticResource MD3Outline}" StrokeThickness="1" Background="Transparent" Padding="12,8" Margin="4">
                                                 <Border.StrokeShape><RoundRectangle CornerRadius="20" /></Border.StrokeShape>
                                                 <Border.GestureRecognizers>
-                                                    <TapGestureRecognizer Command="{Binding BindingContext.ShowTefsirPopupCommand, Source={x:Reference page}}" CommandParameter="{Binding .}" />
+                                                    <TapGestureRecognizer Command="{Binding BindingContext.ShowTefsirPopupCommand, Source={x:Reference page}}" CommandParameter="{Binding .}" Tapped="OnPillButtonTapped" />
                                                 </Border.GestureRecognizers>
                                                 <HorizontalStackLayout Spacing="6" VerticalOptions="Center">
                                                     <Label Text="📖" FontSize="14" VerticalOptions="Center" />
@@ -539,10 +488,9 @@
                         </ScrollView>
                     </DataTemplate>
                 </CarouselView.ItemTemplate>
-            </CarouselView>
+             </CarouselView>
 
-            <!-- ── Alt Gezinme Butonları (Önceki/Sonraki Sure) ── -->
-            <Grid VerticalOptions="End" Margin="16,0,16,16" ColumnDefinitions="*,*" ColumnSpacing="12" ZIndex="10">
+             <Grid VerticalOptions="End" Margin="16,0,16,16" ColumnDefinitions="*,*" ColumnSpacing="12" ZIndex="10">
                 <Grid.Triggers>
                     <DataTrigger TargetType="Grid" Binding="{Binding IsBusy}" Value="True">
                         <Setter Property="IsVisible" Value="False" />
@@ -561,20 +509,12 @@
                         Style="{StaticResource FilledButton}"
                         Opacity="0.95">
                     <Button.Shadow><Shadow Brush="Black" Opacity="0.1" Offset="0,2" Radius="4"/></Button.Shadow>
-                </Button>
-            </Grid>
+                 </Button>
+             </Grid>
 
-            <!-- ═══════════════════════════════════════════════════════ -->
-            <!-- OVERLAY KATMANI (Bottom Sheets)                        -->
-            <!-- ═══════════════════════════════════════════════════════ -->
+         </Grid>
 
-            
-        </Grid>
-
-<!-- ── Sure Seçici Sheet (ZIndex=10) ── -->
-            <!-- ... mevcut kısımların aynısı ancak renkleri MD3Primary ve MD3PrimaryContainer'e göre uyarlanmış ... -->
-            <!-- Çok uzamasın diye filtre kısmını sadece renkleriyle güncelliyorum -->
-            <Grid Grid.Row="0" Grid.RowSpan="3" x:Name="SurePickerOverlay" BackgroundColor="#AA000000" IsVisible="False" ZIndex="10">
+             <Grid Grid.Row="0" Grid.RowSpan="3" x:Name="SurePickerOverlay" BackgroundColor="#AA000000" IsVisible="False" ZIndex="10">
                 <Grid.GestureRecognizers><TapGestureRecognizer Command="{Binding ToggleSurePickerCommand}" /></Grid.GestureRecognizers>
                 <Border VerticalOptions="End" HeightRequest="700" x:Name="SurePickerContainer" StrokeThickness="0" Padding="0" Background="{AppThemeBinding Light={StaticResource MD3Surface}, Dark={StaticResource MD3SurfaceDark}}">
                     <Border.StrokeShape><RoundRectangle CornerRadius="24,24,0,0" /></Border.StrokeShape>
@@ -600,11 +540,10 @@
                             <CollectionView.ItemTemplate>
                                 <DataTemplate x:DataType="models:Sure">
                                     <Border Margin="16,6,16,6" Padding="16,12" StrokeThickness="0">
-                                        <Border.GestureRecognizers>
-                                            <TapGestureRecognizer Command="{Binding BindingContext.JumpToSureCommand, Source={x:Reference page}}" CommandParameter="{Binding .}" />
-                                        </Border.GestureRecognizers>
-                                        <!-- Arka plan rengini karanlık modda farklı kılacak stil -->
-                                        <Border.Style>
+                                         <Border.GestureRecognizers>
+                                             <TapGestureRecognizer Command="{Binding BindingContext.JumpToSureCommand, Source={x:Reference page}}" CommandParameter="{Binding .}" />
+                                         </Border.GestureRecognizers>
+                                         <Border.Style>
                                             <Style TargetType="Border">
                                                 <Setter Property="Background" Value="{AppThemeBinding Light={StaticResource MD3SurfaceContainerLow}, Dark={StaticResource MD3SurfaceVariantDark}}" />
                                                 <Setter Property="StrokeShape">
@@ -637,28 +576,25 @@
                                 ZIndex="5"
                                 TranslationY="{Binding TranslationY, Source={x:Reference SurePickerContainer}, Converter={x:Static vm:NegativeValueConverter.Instance}}">
                             <Grid ColumnDefinitions="*,*" ColumnSpacing="16">
-                                <Border Grid.Column="0" Background="{AppThemeBinding Light={StaticResource MD3SurfaceVariant}, Dark={StaticResource MD3SurfaceVariantDark}}" StrokeThickness="0" HeightRequest="40" Padding="16,0" HorizontalOptions="Center" WidthRequest="120">
-                                    <Border.StrokeShape><RoundRectangle CornerRadius="20"/></Border.StrokeShape>
+                                <Border Grid.Column="0" Style="{StaticResource M3PillSecondary}" HorizontalOptions="Center" WidthRequest="120">
                                     <Border.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding ToggleSurePickerCommand}" Tapped="OnSheetButtonTapped" />
+                                        <TapGestureRecognizer Command="{Binding ToggleSurePickerCommand}" Tapped="OnPillButtonTapped" />
                                     </Border.GestureRecognizers>
                                     <Label Text="İptal" TextColor="{AppThemeBinding Light={StaticResource MD3TextPrimary}, Dark={StaticResource MD3TextPrimaryDark}}" FontAttributes="Bold" HorizontalOptions="Center" VerticalOptions="Center" />
                                 </Border>
-                                <Border Grid.Column="1" Background="{AppThemeBinding Light={StaticResource MD3Primary}, Dark={StaticResource MD3PrimaryDark}}" StrokeThickness="0" HeightRequest="40" Padding="16,0" HorizontalOptions="Center" WidthRequest="120">
-                                    <Border.StrokeShape><RoundRectangle CornerRadius="20"/></Border.StrokeShape>
+                                <Border Grid.Column="1" Style="{StaticResource M3PillPrimary}" HorizontalOptions="Center" WidthRequest="120">
                                     <Border.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding ConfirmSureCommand}" Tapped="OnSheetButtonTapped" />
+                                        <TapGestureRecognizer Command="{Binding ConfirmSureCommand}" Tapped="OnPillButtonTapped" />
                                     </Border.GestureRecognizers>
                                     <Label Text="Onayla" TextColor="{AppThemeBinding Light=White, Dark={StaticResource MD3OnPrimaryDark}}" FontAttributes="Bold" HorizontalOptions="Center" VerticalOptions="Center" />
                                 </Border>
                             </Grid>
                         </Border>
                     </Grid>
-                </Border>
-            </Grid>
+                 </Border>
+             </Grid>
 
-            <!-- ── Ayet Seçici Sheet (ZIndex=15) ── -->
-            <Grid Grid.Row="0" Grid.RowSpan="3" x:Name="AyetPickerOverlay" BackgroundColor="#AA000000" IsVisible="False" ZIndex="15">
+             <Grid Grid.Row="0" Grid.RowSpan="3" x:Name="AyetPickerOverlay" BackgroundColor="#AA000000" IsVisible="False" ZIndex="15">
                 <Grid.GestureRecognizers><TapGestureRecognizer Command="{Binding ToggleAyetPickerCommand}" /></Grid.GestureRecognizers>
                 <Border x:Name="AyetPickerCard" VerticalOptions="Center" HorizontalOptions="Center" WidthRequest="320" HeightRequest="450" StrokeThickness="0" Padding="0" Background="{AppThemeBinding Light={StaticResource MD3Surface}, Dark={StaticResource MD3SurfaceDark}}">
                     <Border.StrokeShape><RoundRectangle CornerRadius="24" /></Border.StrokeShape>
@@ -667,11 +603,10 @@
                         <VerticalStackLayout Grid.Row="0" Padding="20,16,20,12" Spacing="8">
                             <Label Text="Ayet Seç" Style="{StaticResource HeadlineMedium}" HorizontalOptions="Center" />
                             <Label Text="{Binding SureName}" Style="{StaticResource BodyMedium}" HorizontalOptions="Center" TextColor="{StaticResource MD3TextSecondary}" />
-                            <BoxView HeightRequest="1" Color="{StaticResource MD3Outline}" Margin="0,8,0,0" />
-                        </VerticalStackLayout>
-                        
-                        <!-- Ayet Numaraları Grid -->
-                        <CollectionView Grid.Row="1" ItemsSource="{Binding AvailableAyetNumbers}" Margin="16,0,16,16">
+                             <BoxView HeightRequest="1" Color="{StaticResource MD3Outline}" Margin="0,8,0,0" />
+                         </VerticalStackLayout>
+                         
+                         <CollectionView Grid.Row="1" ItemsSource="{Binding AvailableAyetNumbers}" Margin="16,0,16,16">
                             <CollectionView.ItemsLayout>
                                 <GridItemsLayout Orientation="Vertical" Span="5" VerticalItemSpacing="8" HorizontalItemSpacing="8" />
                             </CollectionView.ItemsLayout>
@@ -713,28 +648,25 @@
 
                         <Border Grid.Row="2" Background="{AppThemeBinding Light={StaticResource MD3PrimaryContainer}, Dark={StaticResource MD3SurfaceDark}}" StrokeThickness="0" Padding="16,12">
                             <Grid ColumnDefinitions="*,*" ColumnSpacing="16">
-                                <Border Grid.Column="0" Background="{AppThemeBinding Light={StaticResource MD3SurfaceVariant}, Dark={StaticResource MD3SurfaceVariantDark}}" StrokeThickness="0" HeightRequest="40" Padding="16,0" HorizontalOptions="Center" WidthRequest="120">
-                                    <Border.StrokeShape><RoundRectangle CornerRadius="20"/></Border.StrokeShape>
+                                <Border Grid.Column="0" Style="{StaticResource M3PillSecondary}" HorizontalOptions="Center" WidthRequest="120">
                                     <Border.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding ToggleAyetPickerCommand}" Tapped="OnSheetButtonTapped" />
+                                        <TapGestureRecognizer Command="{Binding ToggleAyetPickerCommand}" Tapped="OnPillButtonTapped" />
                                     </Border.GestureRecognizers>
                                     <Label Text="İptal" TextColor="{AppThemeBinding Light={StaticResource MD3TextPrimary}, Dark={StaticResource MD3TextPrimaryDark}}" FontAttributes="Bold" HorizontalOptions="Center" VerticalOptions="Center" />
                                 </Border>
-                                <Border Grid.Column="1" Background="{AppThemeBinding Light={StaticResource MD3Primary}, Dark={StaticResource MD3PrimaryDark}}" StrokeThickness="0" HeightRequest="40" Padding="16,0" HorizontalOptions="Center" WidthRequest="120">
-                                    <Border.StrokeShape><RoundRectangle CornerRadius="20"/></Border.StrokeShape>
+                                <Border Grid.Column="1" Style="{StaticResource M3PillPrimary}" HorizontalOptions="Center" WidthRequest="120">
                                     <Border.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding ConfirmAyetCommand}" Tapped="OnSheetButtonTapped" />
+                                        <TapGestureRecognizer Command="{Binding ConfirmAyetCommand}" Tapped="OnPillButtonTapped" />
                                     </Border.GestureRecognizers>
                                     <Label Text="Onayla" TextColor="{AppThemeBinding Light=White, Dark={StaticResource MD3OnPrimaryDark}}" FontAttributes="Bold" HorizontalOptions="Center" VerticalOptions="Center" />
                                 </Border>
                             </Grid>
                         </Border>
                     </Grid>
-                </Border>
-            </Grid>
+                 </Border>
+             </Grid>
 
-            <!-- ── Ayarlar Sheet (ZIndex=20) ── -->
-            <Grid Grid.Row="0" Grid.RowSpan="3" x:Name="SettingsSheetOverlay" BackgroundColor="#AA000000" IsVisible="False" ZIndex="20">
+             <Grid Grid.Row="0" Grid.RowSpan="3" x:Name="SettingsSheetOverlay" BackgroundColor="#AA000000" IsVisible="False" ZIndex="20">
                 <Grid.GestureRecognizers><TapGestureRecognizer Command="{Binding ToggleSettingsSheetCommand}" /></Grid.GestureRecognizers>
                 <Border VerticalOptions="End" HeightRequest="700" x:Name="SettingsSheetContainer" StrokeThickness="0" Padding="0" Background="{AppThemeBinding Light={StaticResource MD3Surface}, Dark={StaticResource MD3SurfaceDark}}">
                     <Border.StrokeShape><RoundRectangle CornerRadius="24,24,0,0" /></Border.StrokeShape>
@@ -747,11 +679,10 @@
                             </Grid.GestureRecognizers>
                         </Grid>
                         <Grid ColumnDefinitions="*,Auto">
-                            <Label Text="Görünüm Ayarları" Style="{StaticResource HeadlineMedium}" VerticalOptions="Center" />
-                            <Button Grid.Column="1" Text="✕" BackgroundColor="Transparent" TextColor="{StaticResource MD3TextSecondary}" FontSize="18" WidthRequest="44" HeightRequest="44" Command="{Binding ToggleSettingsSheetCommand}" />
-                        </Grid>
-                        <!-- Ayarlar içeriği (Özet geçildi) -->
-                        <HorizontalStackLayout Spacing="16" HorizontalOptions="Center">
+                             <Label Text="Görünüm Ayarları" Style="{StaticResource HeadlineMedium}" VerticalOptions="Center" />
+                             <Button Grid.Column="1" Text="✕" BackgroundColor="Transparent" TextColor="{StaticResource MD3TextSecondary}" FontSize="18" WidthRequest="44" HeightRequest="44" Command="{Binding ToggleSettingsSheetCommand}" />
+                         </Grid>
+                         <HorizontalStackLayout Spacing="16" HorizontalOptions="Center">
                             <Button Text="A-" Command="{Binding DecreaseFontSizeCommand}" Style="{StaticResource TonalButton}" />
                             <Label Text="{Binding FontSizePercent}" VerticalOptions="Center" FontSize="16" FontAttributes="Bold" TextColor="{AppThemeBinding Light=Black, Dark=White}" />
                             <Button Text="A+" Command="{Binding IncreaseFontSizeCommand}" Style="{StaticResource TonalButton}" />
@@ -764,12 +695,22 @@
                             <Label Text="Yatay Okuma Modu" VerticalOptions="Center" Style="{StaticResource TitleMedium}" />
                             <Switch Grid.Column="1" IsToggled="{Binding UseHorizontalReadingMode}" OnColor="{StaticResource MD3Primary}" />
                         </Grid>
-                    </VerticalStackLayout>
-                </Border>
-            </Grid>
 
-            <!-- ── Çevirmen Filtresi (ZIndex=30) ── -->
-            <Grid Grid.Row="0" Grid.RowSpan="3" x:Name="BottomSheetOverlay" BackgroundColor="#AA000000" IsVisible="False" ZIndex="30">
+                        <Border Style="{StaticResource M3PillPrimary}" Margin="0,10,0,0" HorizontalOptions="Center">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding ApplySettingsCommand}" Tapped="OnPillButtonTapped" />
+                            </Border.GestureRecognizers>
+                            <Label Text="Ayarları Uygula" 
+                                   TextColor="{AppThemeBinding Light=White, Dark={StaticResource MD3OnPrimaryDark}}" 
+                                   FontAttributes="Bold" 
+                                   HorizontalOptions="Center" 
+                                   VerticalOptions="Center" />
+                        </Border>
+                    </VerticalStackLayout>
+                 </Border>
+             </Grid>
+
+             <Grid Grid.Row="0" Grid.RowSpan="3" x:Name="BottomSheetOverlay" BackgroundColor="#AA000000" IsVisible="False" ZIndex="30">
                 <Grid.GestureRecognizers><TapGestureRecognizer Command="{Binding ToggleFilterSheetCommand}" /></Grid.GestureRecognizers>
                 <Border VerticalOptions="End" HeightRequest="700" x:Name="BottomSheetContainer" StrokeThickness="0" Padding="0" Background="{AppThemeBinding Light={StaticResource MD3Surface}, Dark={StaticResource MD3SurfaceDark}}">
                     <Border.StrokeShape><RoundRectangle CornerRadius="24,24,0,0" /></Border.StrokeShape>
@@ -815,7 +756,7 @@
                                         </Border.Style>
                                         
                                         <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
-                                            <CheckBox Grid.Column="0" IsChecked="{Binding IsSelected}" Color="{StaticResource MD3Primary}" VerticalOptions="Center" InputTransparent="True" />
+                                            <CheckBox Grid.Column="0" IsChecked="{Binding IsSelected}" Color="{AppThemeBinding Light={StaticResource MD3Primary}, Dark={StaticResource MD3PrimaryDark}}" VerticalOptions="Center" InputTransparent="True" />
                                             <Label Grid.Column="1" Text="{Binding Name}" FontAttributes="Bold" FontSize="15" VerticalOptions="Center">
                                                 <Label.Style>
                                                     <Style TargetType="Label">
@@ -843,28 +784,25 @@
                                 ZIndex="5"
                                 TranslationY="{Binding TranslationY, Source={x:Reference BottomSheetContainer}, Converter={x:Static vm:NegativeValueConverter.Instance}}">
                             <Grid ColumnDefinitions="*,*" ColumnSpacing="16">
-                                <Border Grid.Column="0" Background="{AppThemeBinding Light={StaticResource MD3SurfaceVariant}, Dark={StaticResource MD3SurfaceVariantDark}}" StrokeThickness="0" HeightRequest="40" Padding="16,0" HorizontalOptions="Center" WidthRequest="120">
-                                    <Border.StrokeShape><RoundRectangle CornerRadius="20"/></Border.StrokeShape>
+                                <Border Grid.Column="0" Style="{StaticResource M3PillSecondary}" HorizontalOptions="Center" WidthRequest="120">
                                     <Border.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding ClearTranslatorsCommand}" Tapped="OnSheetButtonTapped" />
+                                        <TapGestureRecognizer Command="{Binding ClearTranslatorsCommand}" Tapped="OnPillButtonTapped" />
                                     </Border.GestureRecognizers>
                                     <Label Text="Temizle" TextColor="{AppThemeBinding Light={StaticResource MD3TextPrimary}, Dark={StaticResource MD3TextPrimaryDark}}" FontAttributes="Bold" HorizontalOptions="Center" VerticalOptions="Center" />
                                 </Border>
-                                <Border Grid.Column="1" Background="{AppThemeBinding Light={StaticResource MD3Primary}, Dark={StaticResource MD3PrimaryDark}}" StrokeThickness="0" HeightRequest="40" Padding="16,0" HorizontalOptions="Center" WidthRequest="120">
-                                    <Border.StrokeShape><RoundRectangle CornerRadius="20"/></Border.StrokeShape>
+                                <Border Grid.Column="1" Style="{StaticResource M3PillPrimary}" HorizontalOptions="Center" WidthRequest="120">
                                     <Border.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding ApplyFilterCommand}" Tapped="OnSheetButtonTapped" />
+                                        <TapGestureRecognizer Command="{Binding ApplyFilterCommand}" Tapped="OnPillButtonTapped" />
                                     </Border.GestureRecognizers>
                                     <Label Text="Uygula" TextColor="{AppThemeBinding Light=White, Dark={StaticResource MD3OnPrimaryDark}}" FontAttributes="Bold" HorizontalOptions="Center" VerticalOptions="Center" />
                                 </Border>
                             </Grid>
                         </Border>
                     </Grid>
-                </Border>
-            </Grid>
+                 </Border>
+             </Grid>
 
-            <!-- ── Tefsir (Açıklama) Popup (ZIndex=40) ── -->
-            <Grid Grid.Row="0" Grid.RowSpan="3" x:Name="TefsirOverlay" BackgroundColor="#AA000000" IsVisible="False" ZIndex="40">
+             <Grid Grid.Row="0" Grid.RowSpan="3" x:Name="TefsirOverlay" BackgroundColor="#AA000000" IsVisible="False" ZIndex="40">
                 <Grid.GestureRecognizers><TapGestureRecognizer Command="{Binding ClosePopupsCommand}" /></Grid.GestureRecognizers>
                 <Border VerticalOptions="End" HeightRequest="700" x:Name="TefsirSheetContainer" StrokeThickness="0" Padding="0" Background="{AppThemeBinding Light={StaticResource MD3Surface}, Dark={StaticResource MD3SurfaceDark}}">
                     <Border.StrokeShape><RoundRectangle CornerRadius="24,24,0,0" /></Border.StrokeShape>
@@ -888,7 +826,7 @@
                                     <DataTemplate x:DataType="models:MealWithAciklama">
                                         <VerticalStackLayout Spacing="8">
                                             <Label Text="{Binding YazarAdi, StringFormat='{0} Açıklaması'}" FontAttributes="Bold" FontSize="14" TextColor="{AppThemeBinding Light={StaticResource MD3Primary}, Dark={StaticResource MD3PrimaryDark}}" />
-                                            <Label Text="{Binding DisplayAciklamaMetni}" FontFamily="{Binding FontFamilyName}" FontSize="{Binding BindingContext.AciklamaFontSize, Source={x:Reference page}}" TextColor="{AppThemeBinding Light={StaticResource MD3TextPrimary}, Dark={StaticResource MD3TextPrimaryDark}}" LineBreakMode="WordWrap">
+                                            <Label Text="{Binding DisplayAciklamaMetni}" FontFamily="{DynamicResource AppFontFamily}" FontSize="{Binding BindingContext.AciklamaFontSize, Source={x:Reference page}}" TextColor="{AppThemeBinding Light={StaticResource MD3TextPrimary}, Dark={StaticResource MD3TextPrimaryDark}}" LineBreakMode="WordWrap">
                                                 <Label.Style>
                                                     <Style TargetType="Label">
                                                         <Style.Triggers>
@@ -907,11 +845,10 @@
                             </StackLayout>
                         </ScrollView>
                     </Grid>
-                </Border>
-            </Grid>
+                 </Border>
+             </Grid>
  
-             <!-- ── Nüzul Sebebi Popup (ZIndex=40) ── -->
-             <Grid Grid.Row="0" Grid.RowSpan="3" x:Name="NuzulOverlay" BackgroundColor="#AA000000" IsVisible="False" ZIndex="40">
+              <Grid Grid.Row="0" Grid.RowSpan="3" x:Name="NuzulOverlay" BackgroundColor="#AA000000" IsVisible="False" ZIndex="40">
                  <Grid.GestureRecognizers><TapGestureRecognizer Command="{Binding ClosePopupsCommand}" /></Grid.GestureRecognizers>
                  <Border VerticalOptions="End" HeightRequest="700" x:Name="NuzulSheetContainer" StrokeThickness="0" Padding="0" Background="{AppThemeBinding Light={StaticResource MD3Surface}, Dark={StaticResource MD3SurfaceDark}}">
                      <Border.StrokeShape><RoundRectangle CornerRadius="24,24,0,0" /></Border.StrokeShape>
@@ -924,14 +861,14 @@
                                      <PanGestureRecognizer PanUpdated="OnNuzulSheetPan" />
                                  </Grid.GestureRecognizers>
                              </Grid>
-                             <Grid ColumnDefinitions="*,Auto">
-                                 <Label Text="İniş Sebebi (Esbab-ı Nüzul)" Style="{StaticResource HeadlineMedium}" VerticalOptions="Center" />
-                                 <Button Grid.Column="1" Text="✕" BackgroundColor="Transparent" TextColor="{StaticResource MD3TextSecondary}" FontSize="18" WidthRequest="44" HeightRequest="44" Command="{Binding ClosePopupsCommand}" />
-                             </Grid>
-                         </VerticalStackLayout>
-                         <ScrollView x:Name="NuzulScrollView" Grid.Row="1" Padding="20,0,20,20" VerticalOptions="Fill">
-                             <Label Text="{Binding SelectedAyetForPopup.NuzulSebebiText}" FontFamily="{Binding SelectedAyetForPopup.FontFamilyName}" FontSize="{Binding BindingContext.AciklamaFontSize, Source={x:Reference page}}" TextColor="{AppThemeBinding Light={StaticResource MD3TextPrimary}, Dark={StaticResource MD3TextPrimaryDark}}" LineBreakMode="WordWrap" />
-                         </ScrollView>
+                              <Grid ColumnDefinitions="*,Auto">
+                                  <Label Text="İniş Sebebi (Esbab-ı Nüzul)" Style="{StaticResource HeadlineMedium}" VerticalOptions="Center" />
+                                  <Button Grid.Column="1" Text="✕" BackgroundColor="Transparent" TextColor="{StaticResource MD3TextSecondary}" FontSize="18" WidthRequest="44" HeightRequest="44" Command="{Binding ClosePopupsCommand}" />
+                              </Grid>
+                          </VerticalStackLayout>
+                          <ScrollView x:Name="NuzulScrollView" Grid.Row="1" Padding="20,0,20,20" VerticalOptions="Fill">
+                              <Label Text="{Binding SelectedAyetForPopup.NuzulSebebiText}" FontFamily="{DynamicResource AppFontFamily}" FontSize="{Binding BindingContext.AciklamaFontSize, Source={x:Reference page}}" TextColor="{AppThemeBinding Light={StaticResource MD3TextPrimary}, Dark={StaticResource MD3TextPrimaryDark}}" LineBreakMode="WordWrap" />
+                          </ScrollView>
                     </Grid>
                 </Border>
             </Grid>

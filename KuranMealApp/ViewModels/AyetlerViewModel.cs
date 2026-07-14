@@ -31,7 +31,6 @@ public class AyetlerViewModel : INotifyPropertyChanged, IQueryAttributable
     private bool _isTefsirPopupVisible;
     private bool _isNuzulPopupVisible;
     private AyetItem? _selectedAyetForPopup;
-    private bool _isLoadingNext;
     private int _targetAyetNoToScroll = 0;
 
     private List<Sure> _allSureler = new();
@@ -125,31 +124,7 @@ public class AyetlerViewModel : INotifyPropertyChanged, IQueryAttributable
     public bool UseDyslexicFont
     {
         get => _useDyslexicFont;
-        set
-        {
-            if (SetProperty(ref _useDyslexicFont, value))
-            {
-                _settings.UseDyslexicFont = value;
-                OnPropertyChanged(nameof(FontFamilyName));
-                UpdateItemsFontFamily();
-            }
-        }
-    }
-
-    public string FontFamilyName
-    {
-        get
-        {
-            if (UseDyslexicFont)
-                return "OpenDyslexic";
-
-            return _settings.SelectedFontFamily switch
-            {
-                "Inter" => "InterRegular",
-                "Lora" => "LoraRegular",
-                _ => "OpenSansRegular"
-            };
-        }
+        set => SetProperty(ref _useDyslexicFont, value);
     }
 
     public void ReloadSettings()
@@ -158,24 +133,6 @@ public class AyetlerViewModel : INotifyPropertyChanged, IQueryAttributable
         _useHorizontalReadingMode = _settings.UseHorizontalReadingMode;
         OnPropertyChanged(nameof(UseDyslexicFont));
         OnPropertyChanged(nameof(UseHorizontalReadingMode));
-        OnPropertyChanged(nameof(FontFamilyName));
-        UpdateItemsFontFamily();
-    }
-
-    private void UpdateItemsFontFamily()
-    {
-        string font = FontFamilyName;
-        foreach (var ayet in FlatAyetler)
-        {
-            ayet.FontFamilyName = font;
-            if (ayet.Mealler != null)
-            {
-                foreach (var meal in ayet.Mealler)
-                {
-                    meal.FontFamilyName = font;
-                }
-            }
-        }
     }
 
     public bool UseHorizontalReadingMode
@@ -185,24 +142,25 @@ public class AyetlerViewModel : INotifyPropertyChanged, IQueryAttributable
         {
             if (SetProperty(ref _useHorizontalReadingMode, value))
             {
-                _settings.UseHorizontalReadingMode = value;
                 OnPropertyChanged(nameof(IsVerticalMode));
                 OnPropertyChanged(nameof(IsHorizontalMode));
             }
         }
     }
 
+    private bool _isDarkMode;
     public bool IsDarkMode
     {
-        get => _settings.IsDarkMode;
+        get => _isDarkMode;
         set
         {
-            if (_settings.IsDarkMode != value)
+            if (SetProperty(ref _isDarkMode, value))
             {
-                _settings.IsDarkMode = value;
-                OnPropertyChanged();
                 OnPropertyChanged(nameof(DarkModeButtonText));
-                Application.Current.UserAppTheme = value ? AppTheme.Dark : AppTheme.Light;
+                if (Application.Current != null)
+                {
+                    Application.Current.UserAppTheme = value ? AppTheme.Dark : AppTheme.Light;
+                }
             }
         }
     }
@@ -219,7 +177,6 @@ public class AyetlerViewModel : INotifyPropertyChanged, IQueryAttributable
         {
             if (SetProperty(ref _fontSizeScale, value))
             {
-                _settings.FontSizeScale = value;
                 OnPropertyChanged(nameof(ArabicFontSize));
                 OnPropertyChanged(nameof(TranscriptFontSize));
                 OnPropertyChanged(nameof(MealFontSize));
@@ -318,6 +275,7 @@ public class AyetlerViewModel : INotifyPropertyChanged, IQueryAttributable
     public ICommand ToggleDarkModeCommand { get; }
     public ICommand IncreaseFontSizeCommand { get; }
     public ICommand DecreaseFontSizeCommand { get; }
+    public ICommand ApplySettingsCommand { get; }
     public ICommand SetReadingModeCommand { get; }
     public ICommand SetSiralamaCommand { get; }
     public ICommand ToggleTranslatorSelectionCommand { get; }
@@ -451,21 +409,26 @@ public class AyetlerViewModel : INotifyPropertyChanged, IQueryAttributable
 
         IncreaseFontSizeCommand = new Command(() => { if (FontSizeScale < 2.0) FontSizeScale = Math.Round(FontSizeScale + 0.1, 1); });
         DecreaseFontSizeCommand = new Command(() => { if (FontSizeScale > 0.7) FontSizeScale = Math.Round(FontSizeScale - 0.1, 1); });
+        ApplySettingsCommand = new Command(ApplySettings);
 
         _settings.SettingsChanged += OnSettingsChanged;
     }
 
-    private void OnSettingsChanged(object sender, SettingsChangedEventArgs e)
+    private void ApplySettings()
     {
-        if (e.SettingName == nameof(ISettingsService.SelectedFontFamily))
-        {
-            if (!UseDyslexicFont)
-            {
-                OnPropertyChanged(nameof(FontFamilyName));
-                UpdateItemsFontFamily();
-            }
-        }
-        else if (e.SettingName == nameof(ISettingsService.UseDyslexicFont))
+        _settings.IsDarkMode = IsDarkMode;
+        _settings.UseDyslexicFont = UseDyslexicFont;
+        _settings.FontSizeScale = FontSizeScale;
+        _settings.UseHorizontalReadingMode = UseHorizontalReadingMode;
+
+        // Yeniden ölçümleme için property changed tetikle (Collection view item sizing hatasını aşmak için)
+        OnPropertyChanged(nameof(FontSizeScale));
+        ShowSettingsSheet = false;
+    }
+
+    private void OnSettingsChanged(object? sender, SettingsChangedEventArgs e)
+    {
+        if (e.SettingName == nameof(ISettingsService.UseDyslexicFont))
         {
             if (UseDyslexicFont != (bool)e.NewValue)
             {
@@ -604,7 +567,6 @@ public class AyetlerViewModel : INotifyPropertyChanged, IQueryAttributable
             {
                 var item = new AyetItem(rawAyet);
                 item.Mealler = await _db.GetMeallerForAyetAsync(rawAyet.Id, selected);
-                InitializeFontForAyet(item);
                 var nuzulRows = await _db.GetNuzulSebepleriForAyetAsync(rawAyet.Id);
                 if (nuzulRows.Any())
                     item.NuzulSebebiText = string.Join("\n\n", nuzulRows.Select(n => StripDevami(n.Aciklama)));
@@ -621,19 +583,6 @@ public class AyetlerViewModel : INotifyPropertyChanged, IQueryAttributable
             foreach (var item in items) FlatAyetler.Add(item);
             _loadedSureNos.Add(sureNo);
         });
-    }
-
-    private void InitializeFontForAyet(AyetItem item)
-    {
-        string font = FontFamilyName;
-        item.FontFamilyName = font;
-        if (item.Mealler != null)
-        {
-            foreach (var m in item.Mealler)
-            {
-                m.FontFamilyName = font;
-            }
-        }
     }
 
     // ── Helpers ────────────────────────────────────────────────────────────

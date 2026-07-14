@@ -8,48 +8,29 @@
              Title="Arama"
              BackgroundColor="{AppThemeBinding Light={StaticResource MD3Surface}, Dark={StaticResource MD3SurfaceDark}}">
 
-    <Grid RowDefinitions="Auto, *">
-        
-        <!-- Header & Search Bar -->
+    <Grid RowDefinitions="Auto, *, Auto">
+
         <Border Grid.Row="0" StrokeThickness="0" Background="{AppThemeBinding Light={StaticResource MD3PrimaryContainer}, Dark={StaticResource MD3SurfaceDark}}" Padding="16,20,16,20">
             <Border.StrokeShape>
                 <RoundRectangle CornerRadius="0,0,24,24" />
             </Border.StrokeShape>
-            
+
             <VerticalStackLayout Spacing="16">
-                <!-- Başlık -->
                 <Label Text="Gelişmiş Arama"
                        Style="{StaticResource HeadlineMedium}"
                        TextColor="{AppThemeBinding Light={StaticResource MD3OnPrimaryContainer}, Dark={StaticResource MD3OnSurfaceDark}}"
-                       FontAttributes="Bold" />
+                        FontAttributes="Bold" />
 
-                <!-- Arama Kutusu -->
                 <Border StrokeThickness="1" Stroke="{StaticResource MD3Outline}" Background="{AppThemeBinding Light={StaticResource MD3Surface}, Dark={StaticResource MD3SurfaceVariantDark}}" Padding="8,4">
                     <Border.StrokeShape><RoundRectangle CornerRadius="24"/></Border.StrokeShape>
-                    <Grid ColumnDefinitions="Auto, *, Auto">
+                    <Grid ColumnDefinitions="Auto, *">
                         <Label Grid.Column="0" Text="🔍" FontSize="18" VerticalOptions="Center" Margin="8,0,0,0" />
                         <SearchBar Grid.Column="1" Text="{Binding SearchQuery}" Placeholder="Kur'an-ı Kerim'de Ara..." PlaceholderColor="{StaticResource MD3Outline}" TextColor="{AppThemeBinding Light=Black, Dark={StaticResource MD3OnSurfaceDark}}" BackgroundColor="Transparent" />
-                        <Button Grid.Column="2" Text="⚙" Style="{StaticResource IconButton}" WidthRequest="40" HeightRequest="40" />
-                    </Grid>
-                </Border>
-
-                <!-- Çevirmen Seçici (Picker) -->
-                <Border StrokeThickness="1" Stroke="{StaticResource MD3Outline}" Background="{AppThemeBinding Light={StaticResource MD3Surface}, Dark={StaticResource MD3SurfaceVariantDark}}" Padding="12,0">
-                    <Border.StrokeShape><RoundRectangle CornerRadius="16"/></Border.StrokeShape>
-                    <Grid ColumnDefinitions="*, Auto">
-                        <Picker Grid.Column="0"
-                                Title="Çevirmen Seçin"
-                                ItemsSource="{Binding AvailableTranslators}"
-                                SelectedItem="{Binding SelectedTranslator}"
-                                BackgroundColor="Transparent"
-                                HorizontalOptions="Fill" />
-                        <Label Grid.Column="1" Text="▼" VerticalOptions="Center" TextColor="{StaticResource MD3Outline}" Margin="0,0,8,0" IsVisible="False" /> <!-- Picker'ın kendi oku olduğu için gizledim, gerekirse açılabilir -->
                     </Grid>
                 </Border>
             </VerticalStackLayout>
         </Border>
 
-        <!-- Arama Sonuçları -->
         <CollectionView Grid.Row="1" Margin="16" ItemsSource="{Binding SearchResults}">
             <CollectionView.EmptyView>
                 <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="12" Margin="0,40,0,0">
@@ -67,12 +48,133 @@
                         <VerticalStackLayout Spacing="8">
                             <Label Text="{Binding GosterimBasligi}" FontAttributes="Bold" TextColor="{AppThemeBinding Light={StaticResource MD3Primary}, Dark={StaticResource MD3PrimaryDark}}" />
                             <Label FormattedText="{Binding FormattedArapcaMetin}" FontFamily="ArabicMushaf" FontSize="20" HorizontalTextAlignment="End" TextColor="{AppThemeBinding Light={StaticResource ArabicTextColor}, Dark={StaticResource ArabicTextColorDark}}" />
-                            <Label FormattedText="{Binding FormattedMealMetni}" LineBreakMode="WordWrap" TextColor="{AppThemeBinding Light={StaticResource MD3OnSurfaceVariant}, Dark={StaticResource MD3OnSurfaceVariantDark}}" />
+                            <Label FormattedText="{Binding FormattedMealMetni}"
+                                   FontFamily="{DynamicResource AppFontFamily}"
+                                   LineBreakMode="WordWrap"
+                                   TextColor="{AppThemeBinding Light={StaticResource MD3OnSurfaceVariant}, Dark={StaticResource MD3OnSurfaceVariantDark}}" />
                             <Label Text="{Binding YazarAdi, StringFormat='— {0}'}" FontSize="12" FontAttributes="Italic" TextColor="{StaticResource MD3TextSecondary}" HorizontalOptions="End" />
                         </VerticalStackLayout>
                     </Border>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
+
+        <Border Grid.Row="2" StrokeThickness="0" Background="{AppThemeBinding Light={StaticResource MD3PrimaryContainer}, Dark={StaticResource MD3SurfaceDark}}" Padding="16,12" ZIndex="5">
+            <Border.StrokeShape><RoundRectangle CornerRadius="16,16,0,0" /></Border.StrokeShape>
+            <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
+                <VerticalStackLayout Grid.Column="0" VerticalOptions="Center">
+                    <Label Text="Tefsir"
+                           FontSize="12"
+                           TextColor="{AppThemeBinding Light={StaticResource MD3OnPrimaryContainer}, Dark={StaticResource MD3OnSurfaceVariantDark}}"
+                           FontAttributes="Bold" />
+                    <Label Text="{Binding SelectedTranslatorDisplay}"
+                           FontSize="16"
+                           FontAttributes="Bold"
+                           TextColor="{AppThemeBinding Light={StaticResource MD3OnPrimaryContainer}, Dark={StaticResource MD3OnSurfaceDark}}"
+                           VerticalOptions="Center" />
+                </VerticalStackLayout>
+
+                <Border Grid.Column="1" Style="{StaticResource M3PillPrimary}" VerticalOptions="Center">
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding ToggleTranslatorPickerCommand}" />
+                    </Border.GestureRecognizers>
+                    <HorizontalStackLayout Spacing="6" VerticalOptions="Center" HorizontalOptions="Center">
+                        <Label Text="≡" FontSize="18" TextColor="{AppThemeBinding Light=White, Dark={StaticResource MD3OnPrimaryDark}}" VerticalOptions="Center" />
+                        <Label Text="Tefsirler" TextColor="{AppThemeBinding Light=White, Dark={StaticResource MD3OnPrimaryDark}}" FontAttributes="Bold" VerticalOptions="Center" />
+                    </HorizontalStackLayout>
+                </Border>
+            </Grid>
+        </Border>
+
+        <Grid Grid.Row="0" Grid.RowSpan="3" x:Name="TranslatorPickerOverlay" BackgroundColor="#AA000000" IsVisible="False" ZIndex="20">
+            <Grid.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding ToggleTranslatorPickerCommand}" />
+            </Grid.GestureRecognizers>
+            <Border VerticalOptions="End" HeightRequest="700" x:Name="TranslatorPickerContainer" StrokeThickness="0" Padding="0" Background="{AppThemeBinding Light={StaticResource MD3Surface}, Dark={StaticResource MD3SurfaceDark}}">
+                <Border.StrokeShape><RoundRectangle CornerRadius="24,24,0,0" /></Border.StrokeShape>
+                <Border.GestureRecognizers><TapGestureRecognizer /></Border.GestureRecognizers>
+                <Grid RowDefinitions="Auto,*,Auto">
+                    <VerticalStackLayout Grid.Row="0" Padding="20,14,20,8" Spacing="10">
+                        <Grid HeightRequest="30" WidthRequest="200" BackgroundColor="Transparent" HorizontalOptions="Center">
+                            <BoxView WidthRequest="40" HeightRequest="4" CornerRadius="2" Color="{StaticResource MD3Outline}" HorizontalOptions="Center" VerticalOptions="Center" InputTransparent="True" />
+                            <Grid.GestureRecognizers>
+                                <PanGestureRecognizer PanUpdated="OnTranslatorPickerSheetPan" />
+                            </Grid.GestureRecognizers>
+                        </Grid>
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Text="Tefsir Seç" Style="{StaticResource HeadlineMedium}" VerticalOptions="Center" />
+                            <Button Grid.Column="1" Text="✕" BackgroundColor="Transparent" TextColor="{StaticResource MD3TextSecondary}" FontSize="18" WidthRequest="44" HeightRequest="44" Command="{Binding ToggleTranslatorPickerCommand}" />
+                        </Grid>
+                    </VerticalStackLayout>
+                    <CollectionView Grid.Row="1" ItemsSource="{Binding AvailableTranslators}">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="viewmodels:TranslatorFilterItem">
+                                <Border Margin="16,6,16,6" Padding="12,4,16,4" StrokeThickness="0">
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding BindingContext.ToggleTranslatorSelectionCommand, Source={RelativeSource AncestorType={x:Type ContentPage}}}" CommandParameter="{Binding .}" />
+                                    </Border.GestureRecognizers>
+                                    <Border.Style>
+                                        <Style TargetType="Border">
+                                            <Setter Property="Background" Value="{AppThemeBinding Light={StaticResource MD3SurfaceContainerLow}, Dark={StaticResource MD3SurfaceVariantDark}}" />
+                                            <Setter Property="StrokeShape">
+                                                <Setter.Value>
+                                                    <RoundRectangle CornerRadius="16" />
+                                                </Setter.Value>
+                                            </Setter>
+                                            <Style.Triggers>
+                                                <DataTrigger TargetType="Border" Binding="{Binding IsSelected}" Value="True">
+                                                    <Setter Property="Background" Value="{AppThemeBinding Light={StaticResource MD3PrimaryContainer}, Dark={StaticResource MD3Primary}}" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Border.Style>
+
+                                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                                        <CheckBox Grid.Column="0" IsChecked="{Binding IsSelected}" Color="{AppThemeBinding Light={StaticResource MD3Primary}, Dark={StaticResource MD3PrimaryDark}}" VerticalOptions="Center" InputTransparent="True" />
+                                        <Label Grid.Column="1" Text="{Binding Name}" FontAttributes="Bold" FontSize="15" VerticalOptions="Center">
+                                            <Label.Style>
+                                                <Style TargetType="Label">
+                                                    <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource MD3TextPrimary}, Dark={StaticResource MD3TextPrimaryDark}}" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger TargetType="Label" Binding="{Binding IsSelected}" Value="True">
+                                                            <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource MD3OnPrimaryContainer}, Dark={StaticResource MD3OnPrimary}}" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Label.Style>
+                                        </Label>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                        <CollectionView.Footer>
+                            <BoxView HeightRequest="80" Color="Transparent" />
+                        </CollectionView.Footer>
+                    </CollectionView>
+                    <Border Grid.Row="2"
+                            Background="{AppThemeBinding Light={StaticResource MD3PrimaryContainer}, Dark={StaticResource MD3SurfaceDark}}"
+                            StrokeThickness="0"
+                            Padding="16,12,16,24"
+                            ZIndex="5"
+                            TranslationY="{Binding TranslationY, Source={x:Reference TranslatorPickerContainer}, Converter={x:Static viewmodels:NegativeValueConverter.Instance}}">
+                        <Grid ColumnDefinitions="*,*" ColumnSpacing="16">
+                            <Border Grid.Column="0" Style="{StaticResource M3PillSecondary}" HorizontalOptions="Center" WidthRequest="120">
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding ClearTranslatorCommand}" Tapped="OnPillButtonTapped" />
+                                </Border.GestureRecognizers>
+                                <Label Text="Temizle" TextColor="{AppThemeBinding Light={StaticResource MD3TextPrimary}, Dark={StaticResource MD3TextPrimaryDark}}" FontAttributes="Bold" HorizontalOptions="Center" VerticalOptions="Center" />
+                            </Border>
+                            <Border Grid.Column="1" Style="{StaticResource M3PillPrimary}" HorizontalOptions="Center" WidthRequest="120">
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding ConfirmTranslatorCommand}" Tapped="OnPillButtonTapped" />
+                                </Border.GestureRecognizers>
+                                <Label Text="Onayla" TextColor="{AppThemeBinding Light=White, Dark={StaticResource MD3OnPrimaryDark}}" FontAttributes="Bold" HorizontalOptions="Center" VerticalOptions="Center" />
+                            </Border>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </Border>
+        </Grid>
+
     </Grid>
 </ContentPage>

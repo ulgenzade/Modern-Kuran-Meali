@@ -11,6 +11,9 @@ public static class MauiProgram
 	{
 		KuranMealApp.Services.CrashLogger.Initialize();
 		var builder = MauiApp.CreateBuilder();
+
+		// Bottom tab font desteği (Android) kaldırıldı.
+
 		builder
 			.UseMauiApp<App>()
 			.ConfigureFonts(fonts =>

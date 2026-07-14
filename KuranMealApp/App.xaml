@@ -106,8 +106,8 @@
 
             <!-- Tonal Button (Secondary) -->
             <Style x:Key="TonalButton" TargetType="Button">
-                <Setter Property="BackgroundColor" Value="{StaticResource MD3PrimaryContainer}" />
-                <Setter Property="TextColor" Value="{StaticResource MD3OnPrimaryContainer}" />
+                <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource MD3PrimaryContainer}, Dark={StaticResource MD3SurfaceVariantDark}}" />
+                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource MD3OnPrimaryContainer}, Dark={StaticResource MD3OnSurfaceDark}}" />
                 <Setter Property="CornerRadius" Value="20" />
                 <Setter Property="FontSize" Value="13" />
                 <Setter Property="HeightRequest" Value="40" />
@@ -145,8 +145,68 @@
             </Style>
 
             <!-- ══════════════════════════════════════════════════ -->
+            <!-- Material 3 Pill Button Styles (Standardized)       -->
+            <!-- ══════════════════════════════════════════════════ -->
+
+            <!-- M3 Pill Primary (Confirm/Apply) -->
+            <Style x:Key="M3PillPrimary" TargetType="Border">
+                <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource MD3Primary}, Dark={StaticResource MD3PrimaryDark}}" />
+                <Setter Property="StrokeThickness" Value="0" />
+                <Setter Property="HeightRequest" Value="48" />
+                <Setter Property="Padding" Value="24,0" />
+                <Setter Property="StrokeShape">
+                    <Setter.Value>
+                        <RoundRectangle CornerRadius="24" />
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <!-- M3 Pill Secondary (Cancel/Clear) -->
+            <Style x:Key="M3PillSecondary" TargetType="Border">
+                <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource MD3SecondaryContainer}, Dark={StaticResource MD3SurfaceVariantDark}}" />
+                <Setter Property="StrokeThickness" Value="1" />
+                <Setter Property="Stroke" Value="{AppThemeBinding Light={StaticResource MD3Outline}, Dark={StaticResource MD3OutlineDark}}" />
+                <Setter Property="HeightRequest" Value="48" />
+                <Setter Property="Padding" Value="24,0" />
+                <Setter Property="StrokeShape">
+                    <Setter.Value>
+                        <RoundRectangle CornerRadius="24" />
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <!-- M3 Pill Tertiary (Ghost/Text) -->
+            <Style x:Key="M3PillTertiary" TargetType="Border">
+                <Setter Property="BackgroundColor" Value="Transparent" />
+                <Setter Property="StrokeThickness" Value="0" />
+                <Setter Property="HeightRequest" Value="48" />
+                <Setter Property="Padding" Value="24,0" />
+                <Setter Property="StrokeShape">
+                    <Setter.Value>
+                        <RoundRectangle CornerRadius="24" />
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <!-- ══════════════════════════════════════════════════ -->
+            <!-- Global Component Styles                             -->
+            <!-- ══════════════════════════════════════════════════ -->
+
+            <Style TargetType="CheckBox">
+                <Setter Property="Color" Value="{AppThemeBinding Light={StaticResource MD3Primary}, Dark={StaticResource MD3PrimaryDark}}" />
+            </Style>
+
+            <!-- ══════════════════════════════════════════════════ -->
             <!-- Global Label Styles                                -->
             <!-- ══════════════════════════════════════════════════ -->
+
+            <Style TargetType="Label">
+                <Setter Property="FontFamily" Value="{DynamicResource AppFontFamily}" />
+            </Style>
+
+            <Style TargetType="Span">
+                <Setter Property="FontFamily" Value="{DynamicResource AppFontFamily}" />
+            </Style>
 
             <Style x:Key="HeadlineLarge" TargetType="Label">
                 <Setter Property="FontFamily" Value="{DynamicResource AppFontFamily}" />
@@ -176,6 +236,19 @@
                 <Setter Property="LineBreakMode" Value="WordWrap" />
             </Style>
 
+            <Style x:Key="BodySmall" TargetType="Label">
+                <Setter Property="FontFamily" Value="{DynamicResource AppFontFamily}" />
+                <Setter Property="FontSize" Value="13" />
+                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource MD3TextSecondary}, Dark={StaticResource MD3TextSecondaryDark}}" />
+            </Style>
+
+            <Style x:Key="LabelMedium" TargetType="Label">
+                <Setter Property="FontFamily" Value="{DynamicResource AppFontFamily}" />
+                <Setter Property="FontSize" Value="{DynamicResource AppFontSizeBody}" />
+                <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource MD3TextPrimary}, Dark={StaticResource MD3TextPrimaryDark}}" />
+                <Setter Property="FontAttributes" Value="Bold" />
+            </Style>
+
             <Style x:Key="LabelMuted" TargetType="Label">
                 <Setter Property="FontFamily" Value="{DynamicResource AppFontFamily}" />
                 <Setter Property="FontSize" Value="12" />
@@ -198,11 +271,28 @@
                 </Setter>
             </Style>
 
+            <Style TargetType="Button">
+                <Setter Property="FontFamily" Value="{DynamicResource AppFontFamily}" />
+            </Style>
+
+            <Style TargetType="Picker">
+                <Setter Property="FontFamily" Value="{DynamicResource AppFontFamily}" />
+            </Style>
+
+            <Style TargetType="Entry">
+                <Setter Property="FontFamily" Value="{DynamicResource AppFontFamily}" />
+            </Style>
+
             <!-- SearchBar global stili -->
             <Style TargetType="SearchBar">
                 <Setter Property="BackgroundColor" Value="Transparent" />
                 <Setter Property="CancelButtonColor" Value="{StaticResource MD3Primary}" />
                 <Setter Property="FontSize" Value="14" />
+                <Setter Property="FontFamily" Value="{DynamicResource AppFontFamily}" />
+            </Style>
+
+            <Style TargetType="Editor">
+                <Setter Property="FontFamily" Value="{DynamicResource AppFontFamily}" />
             </Style>
 
         </ResourceDictionary>

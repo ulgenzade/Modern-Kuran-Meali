@@ -92,12 +92,7 @@
             </Border>
         </VerticalStackLayout>
 
-        <!-- Arama barını şimdilik kaldırdık çünkü Arama tab'a geçti. Mockupta görünmüyor. -->
-
-        <!-- ═══════════════════════════════════════════════ -->
-        <!-- 2. Sure Listesi                                 -->
-        <!-- ═══════════════════════════════════════════════ -->
-        <RefreshView Grid.Row="2"
+    <RefreshView Grid.Row="2"
                      IsRefreshing="{Binding IsBusy}"
                      Command="{Binding LoadSurelerCommand}">
             <Grid>
@@ -123,16 +118,16 @@
                                 <Border.StrokeShape><RoundRectangle CornerRadius="16" /></Border.StrokeShape>
                                 <Grid ColumnDefinitions="*,*,*" RowDefinitions="Auto,Auto">
                                     <!-- Sure Adı -->
-                                    <Label Grid.Row="0" Grid.Column="0" Text="{Binding SureAdi, Mode=OneTime}" Style="{StaticResource TitleMedium}" FontAttributes="Bold" TextColor="{AppThemeBinding Light={StaticResource MD3TextPrimary}, Dark={StaticResource MD3TextPrimaryDark}}" VerticalOptions="End" />
-                                    <Label Grid.Row="1" Grid.Column="0" Text="{Binding SureNo, StringFormat='Klasik No: {0}', Mode=OneTime}" FontSize="11" TextColor="{StaticResource MD3TextMuted}" VerticalOptions="Start" />
+                                    <Label Grid.Row="0" Grid.Column="0" Text="{Binding SureAdi, Mode=OneTime}" Style="{StaticResource TitleMedium}" FontAttributes="Bold" FontFamily="{DynamicResource AppFontFamily}" TextColor="{AppThemeBinding Light={StaticResource MD3TextPrimary}, Dark={StaticResource MD3TextPrimaryDark}}" VerticalOptions="End" />
+                                    <Label Grid.Row="1" Grid.Column="0" Text="{Binding SureNo, StringFormat='Klasik No: {0}', Mode=OneTime}" FontSize="11" FontFamily="{DynamicResource AppFontFamily}" TextColor="{StaticResource MD3TextMuted}" VerticalOptions="Start" />
 
                                     <!-- İniş Sırası -->
-                                    <Label Grid.Row="0" Grid.Column="1" Text="{Binding InisSirasi, Mode=OneTime}" Style="{StaticResource TitleMedium}" FontAttributes="Bold" HorizontalOptions="Center" TextColor="{AppThemeBinding Light={StaticResource MD3TextPrimary}, Dark={StaticResource MD3TextPrimaryDark}}" VerticalOptions="End" />
-                                    <Label Grid.Row="1" Grid.Column="1" Text="İniş Sırası No" FontSize="11" TextColor="{StaticResource MD3TextMuted}" HorizontalOptions="Center" VerticalOptions="Start" />
+                                    <Label Grid.Row="0" Grid.Column="1" Text="{Binding InisSirasi, Mode=OneTime}" Style="{StaticResource TitleMedium}" FontAttributes="Bold" FontFamily="{DynamicResource AppFontFamily}" HorizontalOptions="Center" TextColor="{AppThemeBinding Light={StaticResource MD3TextPrimary}, Dark={StaticResource MD3TextPrimaryDark}}" VerticalOptions="End" />
+                                    <Label Grid.Row="1" Grid.Column="1" Text="İniş Sırası No" FontSize="11" FontFamily="{DynamicResource AppFontFamily}" TextColor="{StaticResource MD3TextMuted}" HorizontalOptions="Center" VerticalOptions="Start" />
 
                                     <!-- Ayet Sayısı -->
-                                    <Label Grid.Row="0" Grid.Column="2" Text="{Binding AyetSayisi, Mode=OneTime}" Style="{StaticResource TitleMedium}" FontAttributes="Bold" HorizontalOptions="Center" TextColor="{AppThemeBinding Light={StaticResource MD3TextPrimary}, Dark={StaticResource MD3TextPrimaryDark}}" VerticalOptions="End" />
-                                    <Label Grid.Row="1" Grid.Column="2" Text="Ayet Sayısı" FontSize="11" TextColor="{StaticResource MD3TextMuted}" HorizontalOptions="Center" VerticalOptions="Start" />
+                                    <Label Grid.Row="0" Grid.Column="2" Text="{Binding AyetSayisi, Mode=OneTime}" Style="{StaticResource TitleMedium}" FontAttributes="Bold" FontFamily="{DynamicResource AppFontFamily}" HorizontalOptions="Center" TextColor="{AppThemeBinding Light={StaticResource MD3TextPrimary}, Dark={StaticResource MD3TextPrimaryDark}}" VerticalOptions="End" />
+                                    <Label Grid.Row="1" Grid.Column="2" Text="Ayet Sayısı" FontSize="11" FontFamily="{DynamicResource AppFontFamily}" TextColor="{StaticResource MD3TextMuted}" HorizontalOptions="Center" VerticalOptions="Start" />
                                 </Grid>
                             </Border>
                         </DataTemplate>
@@ -142,7 +137,6 @@
                     </CollectionView.Footer>
                 </CollectionView>
 
-                <!-- Custom Scrollbar Track on the right -->
                 <Grid x:Name="ScrollTrackGrid"
                       WidthRequest="48" 
                       HorizontalOptions="End" 
@@ -154,7 +148,6 @@
                         <PanGestureRecognizer PanUpdated="OnScrollThumbPan" />
                     </Grid.GestureRecognizers>
                     
-                    <!-- Track line -->
                     <BoxView WidthRequest="3" 
                              CornerRadius="1.5" 
                              BackgroundColor="{AppThemeBinding Light=#E0DCD3, Dark=#404040}" 
@@ -162,13 +155,11 @@
                              VerticalOptions="Fill" 
                              InputTransparent="True" />
                              
-                    <!-- Draggable Thumb Katmanı (Dokunmayı üst grid alacak) -->
                     <Grid x:Name="ScrollThumbGrid" 
                           HeightRequest="50"
                           VerticalOptions="Start"
                           HorizontalOptions="Fill"
                           BackgroundColor="Transparent">
-                        <!-- Görsel Thumb -->
                         <Border WidthRequest="10" 
                                 HeightRequest="50" 
                                 BackgroundColor="{AppThemeBinding Light=#2B604B, Dark={StaticResource MD3Primary}}" 
@@ -180,7 +171,6 @@
                     </Grid>
                 </Grid>
 
-                <!-- Floating Action Button (FAB) - Okumaya Devam Et -->
                 <Border StrokeThickness="0" 
                         Background="#2B604B"
                         HorizontalOptions="End"

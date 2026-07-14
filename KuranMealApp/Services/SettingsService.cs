@@ -8,11 +8,10 @@ public class SettingsService : ISettingsService
     private const string KeyDyslexic = "use_dyslexic_font";
     private const string KeyFontSize = "font_size_scale";
     private const string KeyReadingMode = "use_horizontal_reading_mode";
-    private const string KeyFontFamily = "selected_font_family";
 
     private const string DefaultTranslators = "Diyanet İşleri Meali (Yeni)";
 
-    public event EventHandler<SettingsChangedEventArgs> SettingsChanged;
+    public event EventHandler<SettingsChangedEventArgs>? SettingsChanged;
 
     protected virtual void OnSettingsChanged(string settingName, object newValue)
     {
@@ -73,17 +72,10 @@ public class SettingsService : ISettingsService
         {
             Preferences.Default.Set("is_dark_mode", value);
             OnSettingsChanged(nameof(IsDarkMode), value);
-        }
-    }
-
-    public string SelectedFontFamily
-    {
-        get => Preferences.Default.Get(KeyFontFamily, "OpenSans");
-        set
-        {
-            Preferences.Default.Set(KeyFontFamily, value);
-            OnSettingsChanged(nameof(SelectedFontFamily), value);
-            ApplySettingsToResources();
+            if (Application.Current != null)
+            {
+                Application.Current.UserAppTheme = value ? AppTheme.Dark : AppTheme.Light;
+            }
         }
     }
 
@@ -93,11 +85,8 @@ public class SettingsService : ISettingsService
 
         var resources = Application.Current.Resources;
 
-        // Font Family logic: Dyslexic font takes precedence if enabled
-        string finalFont = UseDyslexicFont ? "OpenDyslexic" : SelectedFontFamily;
-        resources["AppFontFamily"] = finalFont;
+        resources["AppFontFamily"] = UseDyslexicFont ? "OpenDyslexic" : "OpenSans";
 
-        // Font Size logic: Scale the base sizes
         double scale = FontSizeScale;
         resources["AppFontSizeBody"] = 15 * scale;
         resources["AppFontSizeTitle"] = 16 * scale;

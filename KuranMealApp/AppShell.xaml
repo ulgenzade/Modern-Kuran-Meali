@@ -10,6 +10,9 @@
     Shell.TabBarTitleColor="{AppThemeBinding Light={StaticResource MD3Primary}, Dark={StaticResource MD3PrimaryDark}}"
     Shell.TabBarUnselectedColor="{AppThemeBinding Light={StaticResource MD3TextMuted}, Dark={StaticResource MD3TextSecondaryDark}}">
 
+    <!-- ShellItem (Tab) font ayarlarına genelde XAML üzerinden doğrudan müdahale edilemez. 
+         Fakat title vb. yerlerde dinamik fontu zorlamak için Title ayarlarına global Style eklenebilir. 
+         Aşağıdaki TabBar öğeleri olduğu gibi bırakılıyor. App.xaml içindeki BaseShellItem/Tab stili denendi. -->
     <TabBar>
         <Tab Title="Sureler">
             <Tab.Icon>

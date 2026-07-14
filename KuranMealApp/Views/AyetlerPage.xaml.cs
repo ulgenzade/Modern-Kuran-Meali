@@ -28,9 +28,7 @@ public partial class AyetlerPage : ContentPage
 
     private void OnSettingsChanged(object? sender, SettingsChangedEventArgs e)
     {
-        if (e.SettingName == nameof(ISettingsService.FontSizeScale) || 
-            e.SettingName == nameof(ISettingsService.SelectedFontFamily) ||
-            e.SettingName == nameof(ISettingsService.UseDyslexicFont))
+        if (e.SettingName == nameof(ISettingsService.UseDyslexicFont))
         {
             MainThread.BeginInvokeOnMainThread(() =>
             {
@@ -417,19 +415,19 @@ public partial class AyetlerPage : ContentPage
         }
     }
 
-private async void OnBackClicked(object sender, EventArgs e)
+    private async void OnBackClicked(object sender, EventArgs e)
     {
         var button = (VisualElement)sender;
-        await button.ScaleTo(0.9, 80, Easing.CubicOut);
-        await button.ScaleTo(1.0, 80, Easing.CubicIn);
+        await button.ScaleToAsync(0.9, 80, Easing.CubicOut);
+        await button.ScaleToAsync(1.0, 80, Easing.CubicIn);
         await Shell.Current.GoToAsync("..");
     }
 
     private async void OnPrevSureClicked(object sender, EventArgs e)
     {
         var button = (VisualElement)sender;
-        await button.ScaleTo(0.9, 80, Easing.CubicOut);
-        await button.ScaleTo(1.0, 80, Easing.CubicIn);
+        await button.ScaleToAsync(0.9, 80, Easing.CubicOut);
+        await button.ScaleToAsync(1.0, 80, Easing.CubicIn);
         if (_viewModel.NavigatePrevSureCommand.CanExecute(null))
         {
             _viewModel.NavigatePrevSureCommand.Execute(null);
@@ -439,8 +437,8 @@ private async void OnBackClicked(object sender, EventArgs e)
     private async void OnNextSureClicked(object sender, EventArgs e)
     {
         var button = (VisualElement)sender;
-        await button.ScaleTo(0.9, 80, Easing.CubicOut);
-        await button.ScaleTo(1.0, 80, Easing.CubicIn);
+        await button.ScaleToAsync(0.9, 80, Easing.CubicOut);
+        await button.ScaleToAsync(1.0, 80, Easing.CubicIn);
         if (_viewModel.NavigateNextSureCommand.CanExecute(null))
         {
             _viewModel.NavigateNextSureCommand.Execute(null);
@@ -450,8 +448,8 @@ private async void OnBackClicked(object sender, EventArgs e)
     private async void OnToggleOptionTapped(object sender, EventArgs e)
     {
         var border = (VisualElement)sender;
-        await border.ScaleTo(0.9, 80, Easing.CubicOut);
-        await border.ScaleTo(1.0, 80, Easing.CubicIn);
+        await border.ScaleToAsync(0.9, 80, Easing.CubicOut);
+        await border.ScaleToAsync(1.0, 80, Easing.CubicIn);
     }
 
     private void UpdateScrollbarVisibility()
@@ -480,8 +478,8 @@ private async void OnBackClicked(object sender, EventArgs e)
     private async void OnAyetNumberTapped(object sender, TappedEventArgs e)
     {
         var border = (VisualElement)sender;
-        await border.ScaleTo(0.82, 80, Easing.CubicOut);
-        await border.ScaleTo(1.0, 80, Easing.CubicIn);
+        await border.ScaleToAsync(0.82, 80, Easing.CubicOut);
+        await border.ScaleToAsync(1.0, 80, Easing.CubicIn);
     }
 
     private void HandlePan(Border container, PanUpdatedEventArgs e, double defaultTranslationY, double closedTranslationY, Action closeAction)
@@ -551,11 +549,11 @@ private async void OnBackClicked(object sender, EventArgs e)
         scrollView.Padding = new Thickness(20, 0, 20, 20 + translationY);
     }
 
-    private async void OnSheetButtonTapped(object sender, TappedEventArgs e)
+    private async void OnPillButtonTapped(object sender, TappedEventArgs e)
     {
         var border = (VisualElement)sender;
-        await border.ScaleTo(0.92, 80, Easing.CubicOut);
-        await border.ScaleTo(1.0, 80, Easing.CubicIn);
+        await border.ScaleToAsync(0.94, 60, Easing.CubicOut);
+        await border.ScaleToAsync(1.0, 100, Easing.CubicIn);
     }
 
     private void OnSurePickerSheetPan(object sender, PanUpdatedEventArgs e)

@@ -19,7 +19,6 @@ public interface ISettingsService
     double FontSizeScale { get; set; }
     bool UseHorizontalReadingMode { get; set; }
     bool IsDarkMode { get; set; }
-    string SelectedFontFamily { get; set; }
     void ApplySettingsToResources();
-    event EventHandler<SettingsChangedEventArgs> SettingsChanged;
+    event EventHandler<SettingsChangedEventArgs>? SettingsChanged;
 }

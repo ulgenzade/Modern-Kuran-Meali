@@ -2,6 +2,8 @@ using System.Collections.ObjectModel;
 using System.Windows.Input;
 using KuranMealApp.Models;
 using KuranMealApp.Services;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace KuranMealApp.ViewModels;
 
@@ -15,7 +17,14 @@ public class AramaViewModel : BindableObject, IQueryAttributable
     private string _searchMessage = "Arama yapmak için yukarıya bir kelime yazın.";
 
     private string _selectedTranslator = "Diyanet İşleri Meali (Yeni)";
-    public ObservableCollection<string> AvailableTranslators { get; } = new() { "Diyanet İşleri Meali (Yeni)" };
+    public ObservableCollection<TranslatorFilterItem> AvailableTranslators { get; } = new();
+
+    private bool _isTranslatorPickerVisible;
+    public bool IsTranslatorPickerVisible
+    {
+        get => _isTranslatorPickerVisible;
+        set { _isTranslatorPickerVisible = value; OnPropertyChanged(); }
+    }
 
     public ObservableCollection<AramaSonucu> SearchResults { get; } = new();
 
@@ -47,10 +56,13 @@ public class AramaViewModel : BindableObject, IQueryAttributable
             {
                 _selectedTranslator = value;
                 OnPropertyChanged();
+                OnPropertyChanged(nameof(SelectedTranslatorDisplay));
                 _ = ExecuteSearchAsync(); // Yeniden ara
             }
         }
     }
+
+    public string SelectedTranslatorDisplay => string.IsNullOrEmpty(_selectedTranslator) ? "Tefsir Seçin" : _selectedTranslator;
 
     public bool IsSearching
     {
@@ -65,6 +77,10 @@ public class AramaViewModel : BindableObject, IQueryAttributable
     }
 
     public ICommand ItemTappedCommand { get; }
+    public ICommand ToggleTranslatorPickerCommand { get; }
+    public ICommand ToggleTranslatorSelectionCommand { get; }
+    public ICommand ConfirmTranslatorCommand { get; }
+    public ICommand ClearTranslatorCommand { get; }
 
     public AramaViewModel(IDatabaseService db, ISettingsService settings)
     {
@@ -76,8 +92,32 @@ public class AramaViewModel : BindableObject, IQueryAttributable
         ItemTappedCommand = new Command<AramaSonucu>(async (item) =>
         {
             if (item == null) return;
-            // O sureye git ve ayet parametresini yolla (AyetlerViewModel tarafında handle edilecek)
             await Shell.Current.GoToAsync($"{nameof(KuranMealApp.Views.AyetlerPage)}?SureNo={item.SureNo}&AyetNo={item.AyetNo}");
+        });
+
+        ToggleTranslatorPickerCommand = new Command(() => IsTranslatorPickerVisible = !IsTranslatorPickerVisible);
+
+        ToggleTranslatorSelectionCommand = new Command<TranslatorFilterItem>(item =>
+        {
+            if (item == null) return;
+            item.IsSelected = !item.IsSelected;
+        });
+
+        ConfirmTranslatorCommand = new Command(() =>
+        {
+            var selected = AvailableTranslators.FirstOrDefault(t => t.IsSelected);
+            if (selected != null)
+            {
+                SelectedTranslator = selected.Name;
+            }
+            IsTranslatorPickerVisible = false;
+        });
+
+        ClearTranslatorCommand = new Command(() =>
+        {
+            foreach (var t in AvailableTranslators) t.IsSelected = false;
+            SelectedTranslator = string.Empty;
+            IsTranslatorPickerVisible = false;
         });
     }
 
@@ -95,24 +135,10 @@ public class AramaViewModel : BindableObject, IQueryAttributable
                     list.Add(author);
                 }
 
-                if (AvailableTranslators.SequenceEqual(list))
-                    return;
-
-                var currentSelection = SelectedTranslator;
-
                 AvailableTranslators.Clear();
                 foreach (var item in list)
                 {
-                    AvailableTranslators.Add(item);
-                }
-
-                if (!string.IsNullOrEmpty(currentSelection) && list.Contains(currentSelection))
-                {
-                    SelectedTranslator = currentSelection;
-                }
-                else
-                {
-                    SelectedTranslator = "Diyanet İşleri Meali (Yeni)";
+                    AvailableTranslators.Add(new TranslatorFilterItem { Name = item, IsSelected = item == SelectedTranslator });
                 }
             });
         }
@@ -177,7 +203,6 @@ public class AramaViewModel : BindableObject, IQueryAttributable
         }
         catch (TaskCanceledException)
         {
-            // Debounce iptali, sorun yok.
         }
         catch (Exception ex)
         {
@@ -190,3 +215,4 @@ public class AramaViewModel : BindableObject, IQueryAttributable
         }
     }
 }
+

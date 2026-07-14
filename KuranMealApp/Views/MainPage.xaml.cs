@@ -19,9 +19,7 @@ public partial class MainPage : ContentPage
 
     private void OnSettingsChanged(object? sender, SettingsChangedEventArgs e)
     {
-        if (e.SettingName == nameof(ISettingsService.FontSizeScale) || 
-            e.SettingName == nameof(ISettingsService.SelectedFontFamily) ||
-            e.SettingName == nameof(ISettingsService.UseDyslexicFont))
+        if (e.SettingName == nameof(ISettingsService.UseDyslexicFont))
         {
             MainThread.BeginInvokeOnMainThread(() =>
             {
@@ -41,7 +39,7 @@ public partial class MainPage : ContentPage
             var crashDetails = KuranMealApp.Services.CrashLogger.ReadCrashLog();
             KuranMealApp.Services.CrashLogger.ClearCrashLog();
             
-            await DisplayAlert("Uygulama Hata Raporu", 
+            await DisplayAlertAsync("Uygulama Hata Raporu", 
                 "Son oturumda bir hata oluştu ve uygulama kapandı. Lütfen aşağıdaki bilgiyi kopyalayıp gönderin:\n\n" + crashDetails, 
                 "Kapat");
         }
