@@ -50,8 +50,8 @@ google-services.json
 # Android Profiling
 *.hprof
 
-# Büyük veri dosyaları (git için uygun değil, ayrı tutulmalı)
+# Büyük veri dosyaları
 kuran.db
 
-# apks arşiv klasörü (zaten *.apk ile örtüşüyor ama netlik için)
+# apks arşiv klasörü 
 apks/
