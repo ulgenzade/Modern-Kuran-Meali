@@ -24,6 +24,7 @@ captures/
 
 # Log dosyaları
 *.log
+docs/
 
 # IntelliJ
 *.iml
